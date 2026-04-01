@@ -153,10 +153,22 @@ button{font-family:'Cairo',sans-serif;cursor:pointer}
 
 </style>
 
-<!-- Firebase SDK -->
+
+<!-- Firebase SDK + Config -->
 <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-database-compat.js"></script>
-<script src="firebase-config.js"></script>
+<script>
+window.FIREBASE_CONFIG = {
+  apiKey:            "AIzaSyA_O4MmUccnk4xKmNVTzOH6YtKFCWQgZQ4",
+  authDomain:        "media-literacy-training.firebaseapp.com",
+  databaseURL:       "https://media-literacy-training-default-rtdb.firebaseio.com",
+  projectId:         "media-literacy-training",
+  storageBucket:     "media-literacy-training.firebasestorage.app",
+  messagingSenderId: "652579612215",
+  appId:             "1:652579612215:web:081508aa102a4b3948c1b2"
+};
+window.FIREBASE_READY = true;
+</script>
 </head>
 <body>
 <div class="mobile-topbar"><a href="welcome.html">🏠</a><span style="color:rgba(255,255,255,.3)">›</span><a href="index_m.html">📋 الرئيسية</a><span style="flex:1"></span><a class="dl" href="07_bingo.html">🖥️ مكتب</a></div>

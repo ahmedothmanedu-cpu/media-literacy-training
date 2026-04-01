@@ -254,10 +254,22 @@ button{font-family:'Cairo',sans-serif;cursor:pointer}
 @media(max-width:640px){.cpoll-stats{grid-template-columns:repeat(2,1fr)}}
 </style>
 
-<!-- Firebase SDK -->
+
+<!-- Firebase SDK + Config -->
 <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-database-compat.js"></script>
-<script src="firebase-config.js"></script>
+<script>
+window.FIREBASE_CONFIG = {
+  apiKey:            "AIzaSyA_O4MmUccnk4xKmNVTzOH6YtKFCWQgZQ4",
+  authDomain:        "media-literacy-training.firebaseapp.com",
+  databaseURL:       "https://media-literacy-training-default-rtdb.firebaseio.com",
+  projectId:         "media-literacy-training",
+  storageBucket:     "media-literacy-training.firebasestorage.app",
+  messagingSenderId: "652579612215",
+  appId:             "1:652579612215:web:081508aa102a4b3948c1b2"
+};
+window.FIREBASE_READY = true;
+</script>
 </head>
 <body>
 <nav class="topnav">
