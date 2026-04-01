@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>خوارزمية عقلك الرقمي — ابدأ هنا</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&family=Tajawal:wght@300;400;500;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --navy:#1E3A6E; --blue:#2563EB; --blue-lt:#3B82F6; --blue-pale:#DBEAFE;
+  --cyan:#0891B2; --cyan-pale:#CFFAFE;
+  --green:#059669; --green-pale:#D1FAE5;
+  --orange:#EA580C; --orange-pale:#FED7AA;
+  --amber:#D97706;
+  --purple:#7C3AED; --purple-pale:#EDE9FE;
+  --text:#111827; --text2:#374151; --text3:#6B7280;
+  --border:#D1D5DB; --border2:#E5E7EB;
+  --bg:#F0F4FF; --white:#FFFFFF;
+}
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;height:100%}
+body{
+  font-family:'Cairo','Tajawal',sans-serif;
+  background:var(--navy);
+  color:var(--text);
+  direction:rtl;
+  min-height:100vh;
+  overflow-x:hidden;
+}
+
+/* ─────────────────── ANIMATED BACKGROUND ─────────────────── */
+.bg-canvas{
+  position:fixed;inset:0;z-index:0;overflow:hidden;pointer-events:none;
+}
+.bg-circle{
+  position:absolute;border-radius:50%;opacity:0.07;
+  animation:float 18s ease-in-out infinite;
+}
+.bg-circle:nth-child(1){width:600px;height:600px;background:#60A5FA;top:-200px;right:-200px;animation-delay:0s}
+.bg-circle:nth-child(2){width:400px;height:400px;background:#34D399;bottom:-100px;left:-100px;animation-delay:-6s}
+.bg-circle:nth-child(3){width:300px;height:300px;background:#A78BFA;top:40%;left:20%;animation-delay:-12s}
+.bg-grid{
+  position:absolute;inset:0;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+  background-size:50px 50px;
+}
+@keyframes float{
+  0%,100%{transform:translateY(0) scale(1)}
+  33%{transform:translateY(-40px) scale(1.05)}
+  66%{transform:translateY(20px) scale(0.97)}
+}
+
+/* ─────────────────── WRAPPER ─────────────────── */
+.page{
+  position:relative;z-index:1;
+  min-height:100vh;
+  display:flex;flex-direction:column;
+  align-items:center;
+  padding:0 20px 60px;
+}
+
+/* ─────────────────── TOP LOGO BAR ─────────────────── */
+.top-bar{
+  width:100%;max-width:860px;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:22px 0 0;
+  margin-bottom:0;
+}
+.logo-badge{
+  display:flex;align-items:center;gap:10px;
+  background:rgba(255,255,255,0.08);
+  border:1px solid rgba(255,255,255,0.15);
+  border-radius:12px;padding:8px 18px;
+}
+.logo-badge-dot{width:8px;height:8px;border-radius:50%;background:#34D399;
+  animation:pulse-dot 2s ease-in-out infinite}
+@keyframes pulse-dot{0%,100%{box-shadow:0 0 0 0 rgba(52,211,153,0.6)}50%{box-shadow:0 0 0 6px rgba(52,211,153,0)}}
+.logo-badge span{color:rgba(255,255,255,0.9);font-size:13px;font-weight:800}
+.version-tag{
+  background:rgba(37,99,235,0.3);border:1px solid rgba(37,99,235,0.5);
+  border-radius:8px;padding:6px 14px;
+  color:#93C5FD;font-size:12px;font-weight:800;letter-spacing:.5px;
+}
+
+/* ─────────────────── HERO SECTION ─────────────────── */
+.hero{
+  width:100%;max-width:860px;
+  text-align:center;
+  padding:52px 0 44px;
+  animation:fadeUp .7s ease both;
+}
+@keyframes fadeUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+
+.hero-emoji{font-size:72px;line-height:1;margin-bottom:20px;
+  animation:emojiPop .6s cubic-bezier(.34,1.56,.64,1) both .1s;
+  display:block}
+@keyframes emojiPop{from{opacity:0;transform:scale(.4) rotate(-10deg)}to{opacity:1;transform:scale(1) rotate(0)}}
+
+.hero-kicker{
+  display:inline-flex;align-items:center;gap:8px;
+  background:rgba(37,99,235,0.2);border:1px solid rgba(37,99,235,0.4);
+  border-radius:100px;padding:6px 20px;
+  color:#93C5FD;font-size:13px;font-weight:800;letter-spacing:.3px;
+  margin-bottom:20px;
+}
+.hero h1{
+  font-size:clamp(2.2rem,6vw,3.6rem);
+  font-weight:900;color:#fff;
+  line-height:1.15;
+  margin-bottom:16px;
+  text-shadow:0 2px 20px rgba(0,0,0,0.3);
+}
+.hero h1 em{
+  font-style:normal;
+  background:linear-gradient(135deg,#60A5FA,#34D399);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  background-clip:text;
+}
+.hero-sub{
+  font-size:1.1rem;color:rgba(255,255,255,0.65);
+  max-width:560px;margin:0 auto 32px;line-height:1.7;
+}
+
+/* ─────────────────── META CHIPS ROW ─────────────────── */
+.chips-row{
+  display:flex;gap:8px;justify-content:center;flex-wrap:wrap;
+  margin-bottom:0;
+}
+.chip{
+  display:flex;align-items:center;gap:6px;
+  background:rgba(255,255,255,0.07);
+  border:1px solid rgba(255,255,255,0.14);
+  border-radius:10px;padding:8px 16px;
+  color:rgba(255,255,255,0.82);font-size:13px;font-weight:700;
+  transition:all .2s;
+}
+.chip:hover{background:rgba(255,255,255,0.12);border-color:rgba(255,255,255,0.25)}
+
+/* ─────────────────── DIVIDER ─────────────────── */
+.divider{
+  width:100%;max-width:860px;
+  height:1px;background:rgba(255,255,255,0.1);
+  margin:40px 0;
+}
+
+/* ─────────────────── PROGRAM DETAILS GRID ─────────────────── */
+.details-section{
+  width:100%;max-width:860px;
+  margin-bottom:48px;
+  animation:fadeUp .7s ease both .15s;
+}
+.details-label{
+  font-size:11px;font-weight:800;letter-spacing:2px;text-transform:uppercase;
+  color:rgba(255,255,255,0.35);margin-bottom:20px;text-align:center;
+}
+.details-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(200px,1fr));
+  gap:12px;
+}
+.detail-card{
+  background:rgba(255,255,255,0.05);
+  border:1px solid rgba(255,255,255,0.1);
+  border-radius:14px;padding:16px 18px;
+  transition:all .25s;
+}
+.detail-card:hover{
+  background:rgba(255,255,255,0.09);
+  border-color:rgba(255,255,255,0.2);
+  transform:translateY(-2px);
+}
+.detail-icon{font-size:22px;margin-bottom:8px}
+.detail-label{font-size:11px;font-weight:700;color:rgba(255,255,255,0.4);
+  text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px}
+.detail-val{font-size:15px;font-weight:800;color:rgba(255,255,255,0.9);line-height:1.4}
+
+/* ─────────────────── BLOOM STRIP ─────────────────── */
+.bloom-strip{
+  width:100%;max-width:860px;
+  background:rgba(255,255,255,0.04);
+  border:1px solid rgba(255,255,255,0.1);
+  border-radius:16px;
+  padding:22px 24px;
+  margin-bottom:48px;
+  animation:fadeUp .7s ease both .2s;
+}
+.bloom-strip-title{
+  font-size:13px;font-weight:800;color:rgba(255,255,255,0.5);
+  letter-spacing:1px;text-transform:uppercase;margin-bottom:16px;
+  display:flex;align-items:center;gap:8px;
+}
+.bloom-levels{display:flex;gap:8px;flex-wrap:wrap}
+.bloom-pill{
+  display:flex;align-items:center;gap:7px;
+  border-radius:100px;padding:7px 16px;
+  font-size:13px;font-weight:800;
+  border:1px solid;
+}
+.bl-1{background:rgba(5,150,105,0.15);color:#34D399;border-color:rgba(52,211,153,0.3)}
+.bl-2{background:rgba(37,99,235,0.15);color:#60A5FA;border-color:rgba(96,165,250,0.3)}
+.bl-3{background:rgba(217,119,6,0.15);color:#FCD34D;border-color:rgba(252,211,77,0.3)}
+.bl-4{background:rgba(234,88,12,0.15);color:#FB923C;border-color:rgba(251,146,60,0.3)}
+.bl-5{background:rgba(124,58,237,0.15);color:#A78BFA;border-color:rgba(167,139,250,0.3)}
+
+/* ─────────────────── ACTIVITIES MINI MAP ─────────────────── */
+.mini-map{
+  width:100%;max-width:860px;
+  background:rgba(255,255,255,0.04);
+  border:1px solid rgba(255,255,255,0.1);
+  border-radius:16px;
+  padding:22px 24px;
+  margin-bottom:52px;
+  animation:fadeUp .7s ease both .25s;
+}
+.mini-map-title{
+  font-size:13px;font-weight:800;color:rgba(255,255,255,0.5);
+  letter-spacing:1px;text-transform:uppercase;margin-bottom:16px;
+}
+.mini-acts{display:flex;flex-wrap:wrap;gap:8px}
+.mini-act{
+  display:flex;align-items:center;gap:8px;
+  background:rgba(255,255,255,0.06);
+  border:1px solid rgba(255,255,255,0.1);
+  border-radius:10px;padding:8px 14px;
+  transition:all .2s;
+}
+.mini-act:hover{background:rgba(255,255,255,0.12);border-color:rgba(255,255,255,0.2)}
+.mini-act-num{
+  width:22px;height:22px;border-radius:6px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:11px;font-weight:900;flex-shrink:0;
+}
+.mini-act-name{font-size:12px;font-weight:700;color:rgba(255,255,255,0.8)}
+.mini-act-dur{font-size:11px;color:rgba(255,255,255,0.4);font-weight:600}
+
+/* ─────────────────── DEVICE CARDS ─────────────────── */
+.device-section{
+  width:100%;max-width:860px;
+  animation:fadeUp .7s ease both .3s;
+}
+.device-section-label{
+  text-align:center;
+  font-size:13px;font-weight:800;letter-spacing:2px;text-transform:uppercase;
+  color:rgba(255,255,255,0.35);margin-bottom:24px;
+}
+.device-cards{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:20px;
+}
+.dev-card{
+  position:relative;overflow:hidden;
+  border-radius:24px;padding:36px 28px 32px;
+  cursor:pointer;text-decoration:none;
+  transition:all .3s cubic-bezier(.34,1.2,.64,1);
+  border:2px solid transparent;
+  display:flex;flex-direction:column;align-items:center;
+  text-align:center;
+  group:true;
+}
+.dev-card:hover{transform:translateY(-8px) scale(1.02)}
+.dev-card:active{transform:translateY(-2px) scale(0.99)}
+
+/* Desktop card */
+.dev-card-desktop{
+  background:linear-gradient(145deg,#1d4ed8,#1e40af);
+  box-shadow:0 8px 40px rgba(29,78,216,0.5);
+}
+.dev-card-desktop:hover{
+  border-color:rgba(147,197,253,0.5);
+  box-shadow:0 16px 60px rgba(29,78,216,0.7);
+}
+/* Mobile card */
+.dev-card-mobile{
+  background:linear-gradient(145deg,#059669,#0f766e);
+  box-shadow:0 8px 40px rgba(5,150,105,0.5);
+}
+.dev-card-mobile:hover{
+  border-color:rgba(110,231,183,0.5);
+  box-shadow:0 16px 60px rgba(5,150,105,0.7);
+}
+
+/* Shimmer effect */
+.dev-card::before{
+  content:'';position:absolute;top:0;right:-100%;
+  width:60%;height:100%;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,0.07),transparent);
+  transition:right .6s ease;
+  transform:skewX(-10deg);
+  pointer-events:none;
+}
+.dev-card:hover::before{right:120%}
+
+.dev-card-icon{
+  font-size:64px;margin-bottom:16px;
+  filter:drop-shadow(0 4px 12px rgba(0,0,0,0.3));
+  transition:transform .3s cubic-bezier(.34,1.56,.64,1);
+}
+.dev-card:hover .dev-card-icon{transform:scale(1.15) translateY(-4px)}
+
+.dev-card-title{
+  font-size:1.35rem;font-weight:900;color:#fff;
+  margin-bottom:10px;line-height:1.2;
+}
+.dev-card-sub{
+  font-size:14px;color:rgba(255,255,255,0.7);
+  margin-bottom:20px;line-height:1.6;
+}
+.dev-card-features{
+  display:flex;flex-wrap:wrap;gap:6px;justify-content:center;
+  margin-bottom:24px;
+}
+.dev-feat{
+  background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.2);
+  border-radius:8px;padding:4px 12px;
+  font-size:12px;font-weight:700;color:rgba(255,255,255,0.9);
+}
+.dev-card-btn{
+  display:inline-flex;align-items:center;gap:8px;
+  background:rgba(255,255,255,0.15);
+  border:2px solid rgba(255,255,255,0.3);
+  border-radius:14px;padding:12px 28px;
+  font-family:'Cairo',sans-serif;font-size:15px;font-weight:800;
+  color:#fff;cursor:pointer;transition:all .25s;
+  white-space:nowrap;
+}
+.dev-card:hover .dev-card-btn{
+  background:rgba(255,255,255,0.25);
+  border-color:rgba(255,255,255,0.5);
+  transform:scale(1.04);
+}
+
+/* Recommended badge */
+.recommended-badge{
+  position:absolute;top:16px;left:16px;
+  background:rgba(255,255,255,0.2);
+  border:1px solid rgba(255,255,255,0.35);
+  border-radius:8px;padding:4px 12px;
+  font-size:11px;font-weight:900;color:#fff;
+  letter-spacing:.5px;
+}
+
+/* ─────────────────── FOOTER ─────────────────── */
+.footer{
+  width:100%;max-width:860px;
+  margin-top:48px;
+  text-align:center;
+  border-top:1px solid rgba(255,255,255,0.08);
+  padding-top:28px;
+}
+.footer-authors{
+  font-size:14px;font-weight:700;color:rgba(255,255,255,0.45);
+  margin-bottom:8px;
+}
+.footer-frameworks{
+  display:flex;gap:8px;justify-content:center;flex-wrap:wrap;
+}
+.fw-tag{
+  background:rgba(255,255,255,0.05);
+  border:1px solid rgba(255,255,255,0.1);
+  border-radius:8px;padding:4px 14px;
+  font-size:12px;font-weight:700;color:rgba(255,255,255,0.4);
+}
+
+/* ─────────────────── RESPONSIVE ─────────────────── */
+@media(max-width:600px){
+  .device-cards{grid-template-columns:1fr}
+  .hero h1{font-size:2rem}
+  .details-grid{grid-template-columns:1fr 1fr}
+  .dev-card{padding:28px 20px 24px}
+  .dev-card-icon{font-size:48px}
+}
+</style>
+</head>
+<body>
+
+<!-- ── ANIMATED BG ── -->
+<div class="bg-canvas">
+  <div class="bg-grid"></div>
+  <div class="bg-circle"></div>
+  <div class="bg-circle"></div>
+  <div class="bg-circle"></div>
+</div>
+
+<div class="page">
+
+  <!-- ── TOP BAR ── -->
+  <div class="top-bar">
+    <div class="logo-badge">
+      <div class="logo-badge-dot"></div>
+      <span>الجلسة التدريبية الأولى</span>
+    </div>
+    <div class="version-tag">v1.0 · 2025</div>
+  </div>
+
+  <!-- ── HERO ── -->
+  <div class="hero">
+    <span class="hero-emoji">📱</span>
+    <div class="hero-kicker">🎓 برنامج تدريبي تفاعلي عن بُعد</div>
+    <h1>خوارزمية<br><em>عقلك الرقمي</em></h1>
+    <p class="hero-sub">
+      كيف تصنع الخوارزميات واقعنا الرقمي؟<br>
+      رحلة تفاعلية في فهم التأثير الخفي للمنصات الرقمية على تفكيرنا وقراراتنا
+    </p>
+    <div class="chips-row">
+      <div class="chip">⏱ 90 دقيقة</div>
+      <div class="chip">🎯 10 أنشطة</div>
+      <div class="chip">👥 Zoom · عن بُعد</div>
+      <div class="chip">🧠 5 أهداف بلوم</div>
+      <div class="chip">🏆 3 أنشطة رئيسية</div>
+    </div>
+  </div>
+  <!-- ── DEVICE SELECTION ── -->
+  <div class="device-section">
+    <div class="device-section-label">اختر بيئة العرض المناسبة لك</div>
+    <div class="device-cards">
+
+      <!-- DESKTOP CARD -->
+      <a href="index.html" class="dev-card dev-card-desktop">
+        <div class="recommended-badge">⭐ مُوصى به للمدرّب</div>
+        <div class="dev-card-icon">🖥️</div>
+        <div class="dev-card-title">نسخة سطح المكتب</div>
+        <div class="dev-card-sub">
+          مُحسَّنة للحاسوب المحمول والشاشات الكبيرة<br>
+          عرض كامل لجميع الأدوات والإحصائيات
+        </div>
+        <div class="dev-card-features">
+          <span class="dev-feat">📊 لوحة إحصائيات كاملة</span>
+          <span class="dev-feat">⏱ عداد الجلسة</span>
+          <span class="dev-feat">🗺️ خريطة التوقيت</span>
+          <span class="dev-feat">💬 Chat التفاعلي</span>
+          <span class="dev-feat">📐 أدوات المدرّب</span>
+        </div>
+        <div class="dev-card-btn">
+          ادخل بنسخة المكتب ←
+        </div>
+      </a>
+
+      <!-- MOBILE CARD -->
+      <a href="index_m.html" class="dev-card dev-card-mobile" id="mobileCard">
+        <div class="dev-card-icon">📱</div>
+        <div class="dev-card-title">نسخة الهاتف المحمول</div>
+        <div class="dev-card-sub">
+          مُحسَّنة للهواتف والأجهزة اللوحية<br>
+          واجهة مبسّطة وأزرار كبيرة للمس
+        </div>
+        <div class="dev-card-features">
+          <span class="dev-feat">👆 أزرار لمس كبيرة</span>
+          <span class="dev-feat">📖 قراءة مريحة</span>
+          <span class="dev-feat">⚡ تحميل سريع</span>
+          <span class="dev-feat">🌙 وضع القراءة</span>
+        </div>
+        <div class="dev-card-btn">
+          ادخل بنسخة الهاتف ←
+        </div>
+      </a>
+
+    </div>
+
+    <!-- Auto-detect hint -->
+    <div id="autoHint" style="text-align:center;margin-top:20px;font-size:13px;color:rgba(255,255,255,0.35);font-weight:700;opacity:0;transition:opacity .5s">
+      🔍 تم رصد جهازك · انقر على النسخة المقترحة أعلاه
+    </div>
+  </div>
+
+  <!-- ── FOOTER ── -->
+  <div class="footer">
+    <div class="footer-authors">✍️ تصميم وإعداد: نبال خليل وأحمد عثمان</div>
+    <div class="footer-frameworks">
+      <span class="fw-tag">📐 ADDIE</span>
+      <span class="fw-tag">🧠 بلوم المعدّل</span>
+      <span class="fw-tag">🎯 غانييه</span>
+      <span class="fw-tag">📈 كيركباتريك</span>
+      <span class="fw-tag">Zoom · تدريب عن بعد</span>
+    </div>
+  </div>
+
+</div><!-- /page -->
+
+<script>
+// Auto-detect device and highlight recommended card
+(function(){
+  const isMobile = /Mobi|Android|iPhone|iPad/i.test(navigator.userAgent) || window.innerWidth < 640;
+  const hint = document.getElementById('autoHint');
+
+  if(isMobile){
+    // Highlight mobile card
+    const mc = document.getElementById('mobileCard');
+    mc.style.boxShadow = '0 0 0 3px rgba(52,211,153,0.7), 0 16px 60px rgba(5,150,105,0.7)';
+    mc.insertAdjacentHTML('beforeend',
+      '<div style="position:absolute;top:16px;left:16px;background:rgba(52,211,153,0.25);border:1px solid rgba(52,211,153,0.5);border-radius:8px;padding:4px 12px;font-size:11px;font-weight:900;color:#34D399;letter-spacing:.5px">✓ مناسب لجهازك</div>');
+    hint.textContent = '📱 تم رصد هاتفك · النسخة الخضراء مناسبة لك';
+  } else {
+    hint.textContent = '🖥️ تم رصد حاسوبك · النسخة الزرقاء مناسبة لك';
+  }
+  setTimeout(()=>{ hint.style.opacity='1'; }, 800);
+
+  // Store device preference in localStorage
+  document.querySelectorAll('.dev-card').forEach(card=>{
+    card.addEventListener('click', function(e){
+      const isMob = this.id === 'mobileCard';
+      try{ localStorage.setItem('s1_device_pref', isMob ? 'mobile' : 'desktop'); }catch(err){}
+    });
+  });
+})();
+</script>
+</body>
+</html>

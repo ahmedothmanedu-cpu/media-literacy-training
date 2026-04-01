@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>خوارزمية عقلك الرقمي — النسخة المحمولة</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&family=Tajawal:wght@300;400;500;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:#0f172a; --bg2:#1e293b; --white:#FFFFFF;
+  --navy:#1E3A6E; --blue:#3B82F6; --blue-pale:#DBEAFE;
+  --cyan:#0891B2; --cyan-pale:#CFFAFE;
+  --teal:#0F766E; --teal-pale:#CCFBF1;
+  --green:#059669; --green-pale:#D1FAE5;
+  --orange:#EA580C; --orange-pale:#FED7AA;
+  --amber:#D97706; --amber-pale:#FEF3C7;
+  --purple:#7C3AED; --purple-pale:#EDE9FE;
+  --red:#DC2626;
+  --text:#f1f5f9; --text2:#cbd5e1; --text3:#94a3b8;
+  --border2:#334155;
+  --shadow:0 2px 12px rgba(0,0,0,0.3);
+  --shadow-md:0 4px 24px rgba(0,0,0,0.4);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Cairo','Tajawal',sans-serif;background:var(--bg);color:var(--text);font-size:16px;line-height:1.6;direction:rtl;min-height:100vh}
+a{text-decoration:none;color:inherit}
+button{font-family:'Cairo',sans-serif;cursor:pointer}
+
+/* ── TOP BAR ── */
+.topbar{
+  background:linear-gradient(135deg,#1E3A6E,#1d4ed8);
+  padding:14px 16px;
+  display:flex;align-items:center;justify-content:space-between;
+  position:sticky;top:0;z-index:100;
+  box-shadow:0 2px 20px rgba(0,0,0,0.4);
+}
+.topbar-title{color:#fff;font-size:15px;font-weight:900;line-height:1.3}
+.topbar-sub{color:rgba(255,255,255,0.6);font-size:11px;font-weight:700}
+.topbar-welcome{
+  background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);
+  border-radius:8px;padding:6px 12px;
+  color:rgba(255,255,255,0.85);font-size:12px;font-weight:700;
+  text-decoration:none;
+}
+
+/* ── SESSION TIMER ── */
+.sess-bar{
+  background:#1e293b;border-bottom:1px solid var(--border2);
+  padding:10px 16px;display:flex;align-items:center;gap:10px;
+}
+.sess-display{font-size:1.4rem;font-weight:900;font-family:'Cairo',monospace;color:var(--green);min-width:60px}
+.sess-track{flex:1;height:8px;background:#334155;border-radius:100px;overflow:hidden}
+.sess-fill{height:100%;border-radius:100px;background:linear-gradient(90deg,var(--green),#34D399);transition:width 1s linear;width:100%}
+.btn-sess{
+  padding:7px 14px;border-radius:8px;font-family:'Cairo',sans-serif;
+  font-size:12px;font-weight:800;border:1.5px solid var(--green);
+  background:rgba(5,150,105,0.15);color:var(--green);cursor:pointer;
+  white-space:nowrap;transition:all .2s;
+}
+.btn-sess.running{background:var(--green);color:#fff}
+
+/* ── HERO ── */
+.hero{
+  background:linear-gradient(135deg,#1E3A6E 0%,#1d4ed8 50%,#0891B2 100%);
+  padding:28px 16px 24px;text-align:center;
+}
+.hero h1{font-size:1.8rem;font-weight:900;color:#fff;margin-bottom:6px}
+.hero p{font-size:0.9rem;color:rgba(255,255,255,0.7);max-width:340px;margin:0 auto 16px;line-height:1.6}
+.hero-chips{display:flex;gap:6px;flex-wrap:wrap;justify-content:center}
+.hero-chip{
+  background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.18);
+  border-radius:8px;padding:5px 12px;font-size:12px;font-weight:700;color:rgba(255,255,255,0.85);
+}
+
+/* ── PROGRESS ── */
+.prog-bar-wrap{padding:14px 16px;background:#1e293b;border-bottom:1px solid var(--border2)}
+.prog-bar-label{font-size:12px;font-weight:700;color:var(--text3);margin-bottom:6px;display:flex;justify-content:space-between}
+.prog-bar{height:8px;background:#334155;border-radius:100px;overflow:hidden}
+.prog-fill{height:100%;border-radius:100px;background:linear-gradient(90deg,var(--blue),var(--cyan));transition:width .5s}
+
+/* ── START BTN ── */
+.start-btn{
+  display:block;margin:16px;
+  background:linear-gradient(135deg,#2563EB,#0891B2);
+  color:#fff;border-radius:14px;padding:16px;
+  text-align:center;font-size:17px;font-weight:900;
+  box-shadow:0 4px 20px rgba(37,99,235,0.4);
+  text-decoration:none;transition:all .2s;
+}
+.start-btn:active{transform:scale(0.98)}
+
+/* ── ACTIVITIES LIST ── */
+.acts-list{padding:0 12px 100px}
+.act-item{
+  background:#1e293b;border:1.5px solid var(--border2);
+  border-radius:14px;padding:14px 16px;
+  display:flex;align-items:center;gap:14px;
+  margin-bottom:10px;text-decoration:none;
+  transition:all .2s;
+}
+.act-item:active{transform:scale(0.99)}
+.act-num{
+  width:40px;height:40px;border-radius:12px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:14px;font-weight:900;color:#fff;flex-shrink:0;
+}
+.act-info{flex:1}
+.act-title{font-size:14px;font-weight:800;color:var(--text);margin-bottom:2px;line-height:1.3}
+.act-dur{font-size:12px;color:var(--text3);font-weight:600}
+.act-arrow{color:var(--text3);font-size:18px;flex-shrink:0}
+.act-done-badge{
+  background:rgba(5,150,105,0.2);border:1px solid rgba(52,211,153,0.3);
+  border-radius:6px;padding:2px 8px;font-size:11px;font-weight:800;color:#34D399;
+  flex-shrink:0;
+}
+
+/* ── FOOTER ── */
+.m-footer{
+  position:fixed;bottom:0;left:0;right:0;
+  background:#1e293b;border-top:1px solid var(--border2);
+  padding:12px 16px;
+  display:flex;gap:8px;
+}
+.m-footer a{
+  flex:1;display:flex;align-items:center;justify-content:center;gap:6px;
+  background:rgba(255,255,255,0.06);border:1px solid var(--border2);
+  border-radius:10px;padding:10px;
+  font-size:13px;font-weight:700;color:var(--text2);
+  text-decoration:none;
+}
+</style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="topbar">
+  <div>
+    <div class="topbar-title">📱 خوارزمية عقلك الرقمي</div>
+    <div class="topbar-sub">الجلسة الأولى · نسخة الهاتف</div>
+  </div>
+  <a href="welcome.html" class="topbar-welcome">← الرئيسية</a>
+</div>
+
+<!-- SESSION TIMER -->
+<div class="sess-bar">
+  <div class="sess-display" id="sessDisplay">90:00</div>
+  <div class="sess-track"><div class="sess-fill" id="sessFill"></div></div>
+  <button class="btn-sess" id="sessBtn" onclick="sessToggle()">▶ ابدأ</button>
+  <button onclick="sessReset()" style="padding:7px 10px;border-radius:8px;border:1.5px solid var(--border2);background:rgba(255,255,255,0.05);color:var(--text3);font-family:Cairo;font-size:12px;font-weight:800;cursor:pointer">↺</button>
+</div>
+
+<!-- HERO -->
+<div class="hero">
+  <div style="font-size:40px;margin-bottom:8px">📱</div>
+  <h1>الجلسة الأولى</h1>
+  <p>كيف تصنع الخوارزميات واقعنا الرقمي؟ — 10 أنشطة تفاعلية</p>
+  <div class="hero-chips">
+    <div class="hero-chip">⏱ 90 دقيقة</div>
+    <div class="hero-chip">🎯 10 أنشطة</div>
+    <div class="hero-chip">📱 نسخة الهاتف</div>
+  </div>
+</div>
+
+<!-- PROGRESS -->
+<div class="prog-bar-wrap">
+  <div class="prog-bar-label">
+    <span>تقدمك في الجلسة</span>
+    <span id="progLbl">0 من 10</span>
+  </div>
+  <div class="prog-bar"><div class="prog-fill" id="progFill" style="width:0%"></div></div>
+</div>
+
+<!-- START BUTTON -->
+<a href="01_icebreaker_m.html" class="start-btn">
+  🚀 ابدأ الجلسة ← النشاط الأول
+</a>
+
+<!-- ACTIVITIES LIST -->
+<div class="acts-list">
+
+<a href="01_icebreaker_m.html" class="act-item" data-idx="0">
+  <div class="act-num" style="background:#0891B2">🧊</div>
+  <div class="act-info">
+    <div class="act-title">افتتاح وكسر الجليد</div>
+    <div class="act-dur">⏱ 5 دقائق · استطلاع Mentimeter</div>
+  </div>
+  <div class="act-arrow">←</div>
+</a>
+
+<a href="02_objectives_m.html" class="act-item" data-idx="1">
+  <div class="act-num" style="background:#2563EB">🎯</div>
+  <div class="act-info">
+    <div class="act-title">عرض الأهداف وإثارة الدافعية</div>
+    <div class="act-dur">⏱ 5 دقائق · تصنيف بلوم المعدّل</div>
+  </div>
+  <div class="act-arrow">←</div>
+</a>
+
+<a href="03_activity1_m.html" class="act-item" data-idx="2">
+  <div class="act-num" style="background:#059669">🤖</div>
+  <div class="act-info">
+    <div class="act-title">نشاط ١: الخوارزمية البشرية</div>
+    <div class="act-dur">⏱ 15 دقيقة · نشاط حركي تفاعلي</div>
+  </div>
+  <div class="act-arrow">←</div>
+</a>
+
+<a href="04_interactive_m.html" class="act-item" data-idx="3">
+  <div class="act-num" style="background:#0284c7">📡</div>
+  <div class="act-info">
+    <div class="act-title">عرض تفاعلي: كيف تعمل الخوارزميات</div>
+    <div class="act-dur">⏱ 10 دقائق · Zoom Whiteboard</div>
+  </div>
+  <div class="act-arrow">←</div>
+</a>
+
+<a href="05_algorithm_m.html" class="act-item" data-idx="4">
+  <div class="act-num" style="background:#7C3AED">✍️</div>
+  <div class="act-info">
+    <div class="act-title">اكتب خوارزميتك الشخصية</div>
+    <div class="act-dur">⏱ 5 دقائق · نشاط كتابي تأملي</div>
+  </div>
+  <div class="act-arrow">←</div>
+</a>
+
+<a href="06_break_m.html" class="act-item" data-idx="5">
+  <div class="act-num" style="background:#D97706">☕</div>
+  <div class="act-info">
+    <div class="act-title">استراحة ذهنية</div>
+    <div class="act-dur">⏱ 3 دقائق · تنفس واعٍ</div>
+  </div>
+  <div class="act-arrow">←</div>
+</a>
+
+<a href="07_bingo_m.html" class="act-item" data-idx="6">
+  <div class="act-num" style="background:#0F766E">🎲</div>
+  <div class="act-info">
+    <div class="act-title">نشاط ٢: BINGO التواصلي</div>
+    <div class="act-dur">⏱ 17 دقيقة · Breakout Rooms</div>
+  </div>
+  <div class="act-arrow">←</div>
+</a>
+
+<a href="08_mediadiet_m.html" class="act-item" data-idx="7">
+  <div class="act-num" style="background:#6d28d9">📊</div>
+  <div class="act-info">
+    <div class="act-title">نشاط ٣: النظام الغذائي الإعلامي</div>
+    <div class="act-dur">⏱ 20 دقيقة · مخطط دائري تفاعلي</div>
+  </div>
+  <div class="act-arrow">←</div>
+</a>
+
+<a href="09_summary_m.html" class="act-item" data-idx="8">
+  <div class="act-num" style="background:#EA580C">💡</div>
+  <div class="act-info">
+    <div class="act-title">تلخيص تشاركي</div>
+    <div class="act-dur">⏱ 5 دقائق · جدار الاكتشافات</div>
+  </div>
+  <div class="act-arrow">←</div>
+</a>
+
+<a href="10_evaluation_m.html" class="act-item" data-idx="9">
+  <div class="act-num" style="background:#1d4ed8">📝</div>
+  <div class="act-info">
+    <div class="act-title">تقييم الجلسة</div>
+    <div class="act-dur">⏱ 5 دقائق · نموذج كيركباتريك</div>
+  </div>
+  <div class="act-arrow">←</div>
+</a>
+
+</div><!-- /acts-list -->
+
+<!-- FIXED FOOTER NAV -->
+<div class="m-footer">
+  <a href="welcome.html">🏠 الرئيسية</a>
+  <a href="index.html">🖥️ نسخة المكتب</a>
+  <a href="01_icebreaker_m.html" style="background:rgba(37,99,235,0.2);border-color:rgba(37,99,235,0.4);color:#93C5FD">▶ ابدأ الآن</a>
+</div>
+
+<script>
+// Session timer
+const SESSION_TOTAL = 90 * 60;
+const LS_KEY = 's1_session_timer';
+function sessLoad(){try{return JSON.parse(localStorage.getItem(LS_KEY))||{};}catch(e){return{};}}
+function sessSave(d){try{localStorage.setItem(LS_KEY,JSON.stringify(d));}catch(e){}}
+let sessState=sessLoad();
+function sessElapsed(){
+  if(!sessState.startedAt)return sessState.savedElapsed||0;
+  return(sessState.savedElapsed||0)+Math.floor((Date.now()-sessState.startedAt)/1000);
+}
+let sessIv=null;
+function sessUpdateUI(elapsed){
+  const rem=Math.max(0,SESSION_TOTAL-elapsed);
+  const pct=Math.min(100,(elapsed/SESSION_TOTAL)*100);
+  const m=Math.floor(rem/60),s=rem%60;
+  const disp=document.getElementById('sessDisplay');
+  const fill=document.getElementById('sessFill');
+  const btn=document.getElementById('sessBtn');
+  if(disp){
+    disp.textContent=String(m).padStart(2,'0')+':'+String(s).padStart(2,'0');
+    if(rem<=600){disp.style.color='#DC2626';if(fill)fill.style.background='#DC2626';}
+    else if(rem<=1800){disp.style.color='#D97706';if(fill)fill.style.background='linear-gradient(90deg,#D97706,#FCD34D)';}
+    else{disp.style.color='var(--green)';if(fill)fill.style.background='linear-gradient(90deg,var(--green),#34D399)';}
+  }
+  if(fill)fill.style.width=Math.max(0,100-pct)+'%';
+  if(btn){
+    const running=sessState.startedAt!=null;
+    btn.textContent=running?'⏸':(elapsed>0?'▶':'▶ ابدأ');
+    btn.classList.toggle('running',running);
+  }
+  if(rem===0&&sessIv){clearInterval(sessIv);sessIv=null;}
+}
+function sessToggle(){
+  if(sessState.startedAt){
+    sessState.savedElapsed=sessElapsed();sessState.startedAt=null;
+    sessSave(sessState);clearInterval(sessIv);sessIv=null;
+  }else{
+    sessState.startedAt=Date.now();sessSave(sessState);
+    sessIv=setInterval(()=>{const e=sessElapsed();sessSave({...sessState,savedElapsed:e});sessUpdateUI(e);},1000);
+  }
+  sessUpdateUI(sessElapsed());
+}
+function sessReset(){
+  clearInterval(sessIv);sessIv=null;sessState={};sessSave(sessState);sessUpdateUI(0);
+}
+(function(){
+  const e=sessElapsed();sessUpdateUI(e);
+  if(sessState.startedAt){
+    sessIv=setInterval(()=>{const el=sessElapsed();sessSave({...sessState,savedElapsed:el});sessUpdateUI(el);},1000);
+  }
+})();
+
+// Progress tracking
+const visited=JSON.parse(localStorage.getItem('s1_visited')||'[]');
+const total=10;
+const pct=Math.round((visited.length/total)*100);
+document.getElementById('progFill').style.width=pct+'%';
+document.getElementById('progLbl').textContent=visited.length+' من '+total;
+// Mark visited items
+document.querySelectorAll('.act-item').forEach(item=>{
+  const idx=parseInt(item.dataset.idx);
+  if(visited.includes(idx)){
+    const arrow=item.querySelector('.act-arrow');
+    if(arrow){
+      const badge=document.createElement('div');
+      badge.className='act-done-badge';
+      badge.textContent='✓';
+      item.insertBefore(badge,arrow);
+      arrow.remove();
+    }
+    item.style.borderColor='rgba(52,211,153,0.3)';
+    item.style.background='rgba(5,150,105,0.08)';
+  }
+});
+</script>
+</body>
+</html>

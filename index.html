@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>خوارزمية عقلك الرقمي — الجلسة الأولى | خوارزمية عقلك الرقمي</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&family=Tajawal:wght@300;400;500;700;800&display=swap" rel="stylesheet">
+<style>
+
+  :root {
+    --bg:#F0F4FF; --bg2:#E8EEFF; --white:#FFFFFF;
+    --navy:#1E3A6E; --blue:#2563EB; --blue-lt:#3B82F6; --blue-pale:#DBEAFE;
+    --cyan:#0891B2; --cyan-pale:#CFFAFE;
+    --teal:#0F766E; --teal-pale:#CCFBF1;
+    --green:#059669; --green-pale:#D1FAE5;
+    --orange:#EA580C; --orange-pale:#FED7AA;
+    --amber:#D97706; --amber-pale:#FEF3C7;
+    --purple:#7C3AED; --purple-pale:#EDE9FE;
+    --red:#DC2626; --red-pale:#FEE2E2;
+    --rose:#BE185D; --rose-pale:#FCE7F3;
+    --text:#111827; --text2:#374151; --text3:#6B7280;
+    --border:#D1D5DB; --border2:#E5E7EB;
+    --shadow:0 2px 12px rgba(30,58,110,0.08);
+    --shadow-md:0 4px 24px rgba(30,58,110,0.12);
+    --shadow-lg:0 8px 40px rgba(30,58,110,0.16);
+  }
+
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Cairo','Tajawal',sans-serif;background:var(--bg);color:var(--text);font-size:17px;line-height:1.6;direction:rtl}
+h1,h2,h3,h4{font-family:'Cairo',sans-serif}
+a{text-decoration:none;color:inherit}
+button{font-family:'Cairo',sans-serif;cursor:pointer}
+
+/* ── NAV BAR ── */
+.topnav{background:var(--navy);padding:0;position:sticky;top:0;z-index:100;box-shadow:0 2px 12px rgba(0,0,0,0.2)}
+.topnav-inner{max-width:1000px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:0 20px;height:56px;gap:12px}
+.nav-brand{color:#fff;font-size:15px;font-weight:800;white-space:nowrap;opacity:.9}
+.nav-steps{display:flex;gap:4px;align-items:center;flex-wrap:nowrap;overflow-x:auto}
+.nav-step{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;color:rgba(255,255,255,0.5);border:2px solid rgba(255,255,255,0.15);transition:all .2s;flex-shrink:0;text-decoration:none}
+.nav-step:hover{border-color:rgba(255,255,255,0.5);color:#fff}
+.nav-step.current{background:#fff;color:var(--navy);border-color:#fff}
+.nav-step.done{background:rgba(5,150,105,0.3);border-color:#34D399;color:#6EE7B7}
+.nav-btns{display:flex;gap:8px;flex-shrink:0}
+.btn-nav{padding:7px 16px;border-radius:8px;font-size:14px;font-weight:700;border:none;transition:all .2s;white-space:nowrap}
+.btn-prev{background:rgba(255,255,255,0.1);color:#fff}
+.btn-prev:hover{background:rgba(255,255,255,0.2)}
+.btn-next{background:var(--blue);color:#fff;box-shadow:0 2px 8px rgba(37,99,235,0.4)}
+.btn-next:hover{background:var(--blue-lt)}
+
+/* ── ACTIVITY HEADER ── */
+.act-hero{padding:36px 20px 28px;text-align:center;position:relative;overflow:hidden}
+.act-num-badge{display:inline-flex;align-items:center;gap:8px;border-radius:100px;padding:6px 18px;font-size:14px;font-weight:800;margin-bottom:14px}
+.act-hero h1{font-size:clamp(1.8rem,4vw,2.8rem);font-weight:900;margin-bottom:8px}
+.act-hero p.subtitle{font-size:1.1rem;opacity:.75;max-width:600px;margin:0 auto 18px}
+.act-meta-row{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.meta-chip{display:flex;align-items:center;gap:6px;padding:7px 16px;border-radius:10px;font-size:14px;font-weight:700;background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.25);color:rgba(255,255,255,0.95)}
+
+/* ── TIMER ── */
+.timer-bar{background:var(--white);border:1.5px solid var(--border2);border-radius:16px;padding:16px 20px;margin:0 auto 28px;max-width:1000px;display:flex;align-items:center;gap:16px;box-shadow:var(--shadow)}
+.timer-display{font-size:2.2rem;font-weight:900;font-family:'Cairo',monospace;min-width:90px;text-align:center}
+.timer-track{flex:1;height:10px;background:var(--border2);border-radius:100px;overflow:hidden}
+.timer-fill{height:100%;border-radius:100px;transition:width 1s linear;width:0%}
+.timer-label{font-size:14px;font-weight:700;color:var(--text3);white-space:nowrap}
+.btn-timer{padding:9px 20px;border-radius:10px;font-size:15px;font-weight:800;border:none;transition:all .2s;white-space:nowrap}
+
+/* ── CONTENT CONTAINER ── */
+.page-body{max-width:1000px;margin:0 auto;padding:0 20px 60px}
+
+/* ── CARDS ── */
+.card{background:var(--white);border:1.5px solid var(--border2);border-radius:18px;padding:24px;box-shadow:var(--shadow);margin-bottom:20px}
+.card:hover{box-shadow:var(--shadow-md)}
+.card-title{font-size:18px;font-weight:800;color:var(--navy);margin-bottom:12px;display:flex;align-items:center;gap:10px}
+.card-icon{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+
+/* ── SECTION HEADER ── */
+.sec-h{font-size:14px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;color:var(--text3);margin-bottom:16px;display:flex;align-items:center;gap:10px}
+.sec-h::after{content:'';flex:1;height:2px;background:var(--border2);border-radius:2px}
+
+/* ── GRID ── */
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+@media(max-width:640px){.grid-2,.grid-3{grid-template-columns:1fr}.topnav-inner{flex-wrap:wrap;height:auto;padding:10px 14px}.nav-steps{display:none}}
+
+/* ── BOTTOM NAV ── */
+.bottom-nav{background:var(--white);border-top:2px solid var(--border2);padding:16px 20px;display:flex;justify-content:space-between;align-items:center;position:sticky;bottom:0;box-shadow:0 -4px 20px rgba(30,58,110,0.08)}
+.bottom-nav-info{text-align:center;font-size:14px;color:var(--text3);flex:1}
+.bottom-nav-info strong{color:var(--navy);display:block;font-size:16px}
+.btn-lg{padding:12px 28px;border-radius:12px;font-size:16px;font-weight:800;border:none;transition:all .2s}
+.btn-lg-prev{background:var(--bg2);color:var(--text3);border:1.5px solid var(--border)}
+.btn-lg-next{background:var(--blue);color:#fff;box-shadow:0 4px 14px rgba(37,99,235,0.3)}
+.btn-lg-next:hover{background:var(--blue-lt)}
+
+/* ── PROGRESS DOTS ── */
+.progress-track{display:flex;gap:6px;justify-content:center;margin-bottom:24px}
+.progress-dot{width:10px;height:10px;border-radius:50%;background:var(--border);transition:all .3s}
+.progress-dot.active{background:var(--blue);width:28px;border-radius:10px}
+.progress-dot.done{background:var(--green)}
+
+
+.hub-hero{background:linear-gradient(135deg,#1E3A6E 0%,#1d4ed8 50%,#0891B2 100%);
+  padding:56px 20px 44px;text-align:center}
+.hub-hero h1{font-size:clamp(2rem,5vw,3rem);font-weight:900;color:#fff;margin-bottom:8px}
+.hub-hero p{font-size:1.1rem;color:rgba(255,255,255,0.75);max-width:580px;margin:0 auto 24px}
+.hub-meta{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.hub-chip{background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.2);border-radius:10px;
+  padding:8px 18px;font-size:14px;font-weight:700;color:#E2E8F0}
+.hub-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:14px;margin-bottom:32px}
+.hub-card{background:var(--white);border:2px solid var(--border2);border-radius:18px;padding:20px 16px;
+  text-align:center;text-decoration:none;color:var(--text);display:flex;flex-direction:column;
+  align-items:center;gap:6px;transition:all .25s;box-shadow:var(--shadow)}
+.hub-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-lg)}
+.hub-num{width:30px;height:30px;border-radius:8px;display:flex;align-items:center;justify-content:center;
+  font-size:13px;font-weight:900;border:1.5px solid;margin-bottom:4px}
+.hub-icon{font-size:28px}
+.hub-title{font-size:13px;font-weight:800;color:var(--navy);line-height:1.4;text-align:center}
+.hub-dur{font-size:12px;font-weight:700;margin-top:2px}
+.total-bar{background:var(--white);border:1.5px solid var(--border2);border-radius:16px;
+  padding:20px 24px;margin-bottom:28px;box-shadow:var(--shadow);display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.tbar-seg{flex:1;min-width:60px;text-align:center;padding:8px;border-radius:10px}
+.tbar-val{font-size:22px;font-weight:900}
+.tbar-lbl{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;opacity:.7}
+
+/* ── SESSION TIMER STRIP (sticky, no reset) ── */
+.sess-strip{background:var(--white);border-bottom:2px solid var(--border2);
+  padding:10px 20px;position:sticky;top:0;z-index:100;
+  box-shadow:0 4px 18px rgba(30,58,110,0.11)}
+.sess-strip-inner{max-width:1000px;margin:0 auto;
+  display:flex;align-items:center;gap:14px}
+.sess-label-tag{font-size:11px;font-weight:800;color:var(--text3);
+  white-space:nowrap;letter-spacing:.8px;text-transform:uppercase;flex-shrink:0}
+.sess-display{font-size:1.75rem;font-weight:900;font-family:'Cairo',monospace;
+  min-width:76px;text-align:center;letter-spacing:1px;transition:color .5s;flex-shrink:0}
+.sess-track{flex:1;height:9px;background:var(--border2);border-radius:100px;overflow:hidden}
+.sess-fill{height:100%;border-radius:100px;
+  background:linear-gradient(90deg,var(--green),#34D399);
+  transition:width 1s linear,background .5s;width:100%}
+.btn-sess{padding:8px 18px;border-radius:10px;font-family:'Cairo',sans-serif;
+  font-size:13px;font-weight:800;border:2px solid var(--green);
+  background:var(--green-pale);color:var(--green);cursor:pointer;
+  transition:all .2s;white-space:nowrap;flex-shrink:0}
+.btn-sess:hover{background:var(--green);color:#fff;box-shadow:0 2px 10px rgba(5,150,105,0.3)}
+.btn-sess.sess-running{background:var(--green);color:#fff;box-shadow:0 2px 10px rgba(5,150,105,0.3)}
+
+/* ── SESSION TIMELINE BAR ── */
+.sess-timeline{background:var(--white);border:1.5px solid var(--border2);
+  border-radius:14px;padding:18px 20px 14px;margin-bottom:20px;box-shadow:var(--shadow)}
+.sess-tl-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:11px}
+.sess-tl-title{font-size:13px;font-weight:800;color:var(--navy);letter-spacing:.3px;
+  display:flex;align-items:center;gap:6px}
+.sess-tl-total{font-size:12px;font-weight:700;color:var(--text3)}
+.sess-tl-wrap{position:relative;margin-bottom:8px}
+.sess-tl-track{display:flex;height:30px;border-radius:10px;overflow:hidden;position:relative}
+.sess-tl-seg{height:100%;position:relative;transition:filter .2s,opacity .2s;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;min-width:0;overflow:hidden}
+.sess-tl-seg:hover{filter:brightness(1.15)}
+.sess-tl-seg+.sess-tl-seg{border-right:1.5px solid rgba(255,255,255,0.35)}
+.sess-tl-seg-num{font-size:10px;font-weight:900;color:rgba(255,255,255,0.95);
+  white-space:nowrap;overflow:hidden;pointer-events:none;text-shadow:0 1px 3px rgba(0,0,0,0.25);
+  padding:0 3px}
+.sess-tl-cursor{position:absolute;top:-5px;height:40px;width:2.5px;
+  background:var(--red);border-radius:2px;transition:left 1s linear;pointer-events:none;
+  box-shadow:0 0 10px rgba(220,38,38,0.7);z-index:10}
+.sess-tl-cursor::before{content:'';position:absolute;top:0;left:50%;
+  transform:translateX(-50%);width:8px;height:8px;border-radius:50%;
+  background:var(--red);box-shadow:0 0 6px rgba(220,38,38,0.8)}
+.sess-tl-labels{display:flex}
+.sess-tl-lbl{font-size:9.5px;font-weight:700;color:var(--text3);
+  text-align:center;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;
+  padding:0 2px}
+.sess-tl-tooltip{position:absolute;bottom:calc(100% + 10px);left:50%;
+  transform:translateX(-50%);background:var(--navy);color:#fff;
+  font-size:11px;font-weight:700;border-radius:7px;padding:5px 10px;
+  white-space:nowrap;pointer-events:none;opacity:0;transition:opacity .15s;z-index:20}
+.sess-tl-seg:hover .sess-tl-tooltip{opacity:1}
+
+</style>
+</head>
+<body>
+<div style="background:rgba(0,0,0,0.2);padding:10px 20px;text-align:left;border-bottom:1px solid rgba(255,255,255,0.08)">
+  <a href="welcome.html" style="display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);border-radius:8px;padding:6px 16px;font-size:13px;font-weight:700;color:rgba(255,255,255,0.8);text-decoration:none;transition:all .2s" onmouseover="this.style.background='rgba(255,255,255,0.18)'" onmouseout="this.style.background='rgba(255,255,255,0.1)'">← العودة للصفحة الرئيسية</a>
+  <a href="index_m.html" style="margin-right:10px;display:inline-flex;align-items:center;gap:6px;background:rgba(5,150,105,0.2);border:1px solid rgba(52,211,153,0.3);border-radius:8px;padding:6px 16px;font-size:13px;font-weight:700;color:#34D399;text-decoration:none;transition:all .2s">📱 النسخة المحمولة</a>
+</div>
+<div class="hub-hero">
+  <div style="font-size:48px;margin-bottom:12px">📱</div>
+  <h1>خوارزمية عقلك الرقمي</h1>
+  <p>الجلسة التدريبية الأولى — كيف تصنع الخوارزميات واقعنا الرقمي؟</p>
+  <div class="hub-meta">
+    <div class="hub-chip">⏱ 90 دقيقة</div>
+    <div class="hub-chip">🎯 10 أنشطة</div>
+    <div class="hub-chip">👥 تدريب عن بعد · Zoom</div>
+    <div class="hub-chip">📐 ADDIE · بلوم · غانييه · كيركباتريك</div>
+    <div class="hub-chip">✍️ نبال خليل وأحمد عثمان</div>
+  </div>
+</div>
+
+<!-- ── SESSION TIMER STRIP (no reset button) ── -->
+<div class="sess-strip">
+  <div class="sess-strip-inner">
+    <div class="sess-label-tag">⏱ عداد الجلسة</div>
+    <div class="sess-display" id="sessDisplay" style="color:var(--green)">90:00</div>
+    <div class="sess-track"><div class="sess-fill" id="sessFill"></div></div>
+    <button class="btn-sess" id="sessBtn" onclick="sessToggle()">▶ ابدأ الجلسة</button>
+  </div>
+</div>
+
+<div style="max-width:1000px;margin:0 auto;padding:32px 20px 60px">
+
+<!-- ── SESSION TIMELINE BAR ── -->
+<div class="sess-timeline">
+  <div class="sess-tl-header">
+    <div class="sess-tl-title">🗓 خريطة توقيت الجلسة الكاملة</div>
+    <div class="sess-tl-total">90 دقيقة · 10 أنشطة</div>
+  </div>
+  <div class="sess-tl-wrap">
+    <div class="sess-tl-track">
+      <div class="sess-tl-seg" style="width:5.56%;background:#0891B2" onclick="location.href='01_icebreaker.html'">
+        <div class="sess-tl-tooltip">١ · افتتاح وكسر الجليد · 5 دق</div>
+        <div class="sess-tl-seg-num">1</div>
+      </div>
+      <div class="sess-tl-seg" style="width:5.56%;background:#2563EB" onclick="location.href='02_objectives.html'">
+        <div class="sess-tl-tooltip">٢ · عرض الأهداف · 5 دق</div>
+        <div class="sess-tl-seg-num">2</div>
+      </div>
+      <div class="sess-tl-seg" style="width:16.67%;background:#059669" onclick="location.href='03_activity1.html'">
+        <div class="sess-tl-tooltip">٣ · الخوارزمية البشرية · 15 دق</div>
+        <div class="sess-tl-seg-num">3 · 15دق</div>
+      </div>
+      <div class="sess-tl-seg" style="width:11.11%;background:#0284c7" onclick="location.href='04_interactive.html'">
+        <div class="sess-tl-tooltip">٤ · عرض تفاعلي · 10 دق</div>
+        <div class="sess-tl-seg-num">4 · 10دق</div>
+      </div>
+      <div class="sess-tl-seg" style="width:5.56%;background:#7C3AED" onclick="location.href='05_algorithm.html'">
+        <div class="sess-tl-tooltip">٥ · خوارزميتك الشخصية · 5 دق</div>
+        <div class="sess-tl-seg-num">5</div>
+      </div>
+      <div class="sess-tl-seg" style="width:3.33%;background:#D97706" onclick="location.href='06_break.html'">
+        <div class="sess-tl-tooltip">٦ · استراحة ذهنية · 3 دق</div>
+        <div class="sess-tl-seg-num">☕</div>
+      </div>
+      <div class="sess-tl-seg" style="width:18.89%;background:#0F766E" onclick="location.href='07_bingo.html'">
+        <div class="sess-tl-tooltip">٧ · BINGO التواصلي · 17 دق</div>
+        <div class="sess-tl-seg-num">7 · 17دق</div>
+      </div>
+      <div class="sess-tl-seg" style="width:22.22%;background:#6d28d9" onclick="location.href='08_mediadiet.html'">
+        <div class="sess-tl-tooltip">٨ · النظام الغذائي الإعلامي · 20 دق</div>
+        <div class="sess-tl-seg-num">8 · 20دق</div>
+      </div>
+      <div class="sess-tl-seg" style="width:5.56%;background:#EA580C" onclick="location.href='09_summary.html'">
+        <div class="sess-tl-tooltip">٩ · تلخيص تشاركي · 5 دق</div>
+        <div class="sess-tl-seg-num">9</div>
+      </div>
+      <div class="sess-tl-seg" style="width:5.56%;background:#1d4ed8" onclick="location.href='10_evaluation.html'">
+        <div class="sess-tl-tooltip">١٠ · تقييم الجلسة · 5 دق</div>
+        <div class="sess-tl-seg-num">10</div>
+      </div>
+    </div>
+    <div class="sess-tl-cursor" id="tlCursor" style="left:0%"></div>
+  </div>
+  <div class="sess-tl-labels">
+    <div class="sess-tl-lbl" style="width:5.56%">5د</div>
+    <div class="sess-tl-lbl" style="width:5.56%">5د</div>
+    <div class="sess-tl-lbl" style="width:16.67%">15 دقيقة</div>
+    <div class="sess-tl-lbl" style="width:11.11%">10د</div>
+    <div class="sess-tl-lbl" style="width:5.56%">5د</div>
+    <div class="sess-tl-lbl" style="width:3.33%">3د</div>
+    <div class="sess-tl-lbl" style="width:18.89%">17 دقيقة</div>
+    <div class="sess-tl-lbl" style="width:22.22%">20 دقيقة</div>
+    <div class="sess-tl-lbl" style="width:5.56%">5د</div>
+    <div class="sess-tl-lbl" style="width:5.56%">5د</div>
+  </div>
+</div>
+
+<div class="total-bar">
+  <div class="tbar-seg" style="background:var(--green-pale)"><div class="tbar-val" style="color:var(--green)">10</div><div class="tbar-lbl" style="color:var(--green)">أنشطة</div></div>
+  <div class="tbar-seg" style="background:var(--blue-pale)"><div class="tbar-val" style="color:var(--blue)">90</div><div class="tbar-lbl" style="color:var(--blue)">دقيقة</div></div>
+  <div class="tbar-seg" style="background:var(--orange-pale)"><div class="tbar-val" style="color:var(--orange)">3</div><div class="tbar-lbl" style="color:var(--orange)">أنشطة رئيسية</div></div>
+  <div class="tbar-seg" style="background:var(--purple-pale)"><div class="tbar-val" style="color:var(--purple)">5</div><div class="tbar-lbl" style="color:var(--purple)">أهداف بلوم</div></div>
+  <div style="flex:2;min-width:200px">
+    <div style="font-size:13px;font-weight:800;color:var(--text3);margin-bottom:6px">التقدم العام</div>
+    <div style="background:var(--border2);border-radius:100px;height:10px;overflow:hidden">
+      <div id="totalProgress" style="height:100%;background:linear-gradient(90deg,var(--blue),var(--cyan));border-radius:100px;width:0%;transition:width .5s"></div>
+    </div>
+    <div id="totalProgressLbl" style="font-size:12px;color:var(--text3);margin-top:4px">لم تبدأ بعد</div>
+  </div>
+</div>
+
+<div class="sec-h">🗺️ خريطة الأنشطة — اضغط للانتقال</div>
+<div class="hub-grid">
+<a href="01_icebreaker.html" class="hub-card" style="border-color:#67E8F9">
+  <div class="hub-num" style="background:var(--cyan-pale);color:var(--cyan);border-color:#67E8F9">1</div>
+  <div class="hub-icon">🧊</div>
+  <div class="hub-title">افتتاح وكسر الجليد</div>
+  <div class="hub-dur" style="color:var(--cyan)">⏱ 5 دق</div>
+</a>
+<a href="02_objectives.html" class="hub-card" style="border-color:#93C5FD">
+  <div class="hub-num" style="background:var(--blue-pale);color:var(--blue);border-color:#93C5FD">2</div>
+  <div class="hub-icon">🎯</div>
+  <div class="hub-title">عرض الأهداف وإثارة الدافعية</div>
+  <div class="hub-dur" style="color:var(--blue)">⏱ 5 دق</div>
+</a>
+<a href="03_activity1.html" class="hub-card" style="border-color:#6EE7B7">
+  <div class="hub-num" style="background:var(--green-pale);color:var(--green);border-color:#6EE7B7">3</div>
+  <div class="hub-icon">🤖</div>
+  <div class="hub-title">نشاط ١: الخوارزمية البشرية</div>
+  <div class="hub-dur" style="color:var(--green)">⏱ 15 دق</div>
+</a>
+<a href="04_interactive.html" class="hub-card" style="border-color:#67E8F9">
+  <div class="hub-num" style="background:var(--cyan-pale);color:var(--cyan);border-color:#67E8F9">4</div>
+  <div class="hub-icon">📡</div>
+  <div class="hub-title">عرض تفاعلي: كيف تعمل الخوارزميات</div>
+  <div class="hub-dur" style="color:var(--cyan)">⏱ 10 دق</div>
+</a>
+<a href="05_algorithm.html" class="hub-card" style="border-color:#C4B5FD">
+  <div class="hub-num" style="background:var(--purple-pale);color:var(--purple);border-color:#C4B5FD">5</div>
+  <div class="hub-icon">✍️</div>
+  <div class="hub-title">اكتب خوارزميتك الشخصية</div>
+  <div class="hub-dur" style="color:var(--purple)">⏱ 5 دق</div>
+</a>
+<a href="06_break.html" class="hub-card" style="border-color:#FCD34D">
+  <div class="hub-num" style="background:var(--amber-pale);color:var(--amber);border-color:#FCD34D">6</div>
+  <div class="hub-icon">☕</div>
+  <div class="hub-title">استراحة ذهنية</div>
+  <div class="hub-dur" style="color:var(--amber)">⏱ 3 دق</div>
+</a>
+<a href="07_bingo.html" class="hub-card" style="border-color:#5EEAD4">
+  <div class="hub-num" style="background:var(--teal-pale);color:var(--teal);border-color:#5EEAD4">7</div>
+  <div class="hub-icon">🎲</div>
+  <div class="hub-title">نشاط ٢: BINGO التواصلي</div>
+  <div class="hub-dur" style="color:var(--teal)">⏱ 17 دق</div>
+</a>
+<a href="08_mediadiet.html" class="hub-card" style="border-color:#C4B5FD">
+  <div class="hub-num" style="background:var(--purple-pale);color:var(--purple);border-color:#C4B5FD">8</div>
+  <div class="hub-icon">📊</div>
+  <div class="hub-title">نشاط ٣: النظام الغذائي الإعلامي</div>
+  <div class="hub-dur" style="color:var(--purple)">⏱ 20 دق</div>
+</a>
+<a href="09_summary.html" class="hub-card" style="border-color:#FB923C">
+  <div class="hub-num" style="background:var(--orange-pale);color:var(--orange);border-color:#FB923C">9</div>
+  <div class="hub-icon">💡</div>
+  <div class="hub-title">تلخيص تشاركي</div>
+  <div class="hub-dur" style="color:var(--orange)">⏱ 5 دق</div>
+</a>
+<a href="10_evaluation.html" class="hub-card" style="border-color:#93C5FD">
+  <div class="hub-num" style="background:var(--blue-pale);color:var(--blue);border-color:#93C5FD">10</div>
+  <div class="hub-icon">📝</div>
+  <div class="hub-title">تقييم الجلسة</div>
+  <div class="hub-dur" style="color:var(--blue)">⏱ 5 دق</div>
+</a></div>
+
+<a href="01_icebreaker.html" style="display:block;text-align:center;background:linear-gradient(135deg,var(--navy),var(--blue));color:#fff;border-radius:16px;padding:18px 40px;font-size:19px;font-weight:900;box-shadow:0 6px 20px rgba(37,99,235,0.35);transition:all .2s;text-decoration:none">
+  🚀 ابدأ الجلسة ← النشاط الأول
+</a>
+</div>
+<script>
+// ── SESSION TIMER (90 دق — بدون زر إعادة) ──
+const SESSION_TOTAL = 90 * 60;
+const LS_KEY = 's1_session_timer';
+function sessLoad(){try{return JSON.parse(localStorage.getItem(LS_KEY))||{};}catch(e){return{};}}
+function sessSave(d){try{localStorage.setItem(LS_KEY,JSON.stringify(d));}catch(e){}}
+let sessState = sessLoad();
+function sessElapsed(){
+  if(!sessState.startedAt) return sessState.savedElapsed||0;
+  return (sessState.savedElapsed||0)+Math.floor((Date.now()-sessState.startedAt)/1000);
+}
+let sessIv = null;
+function sessUpdateUI(elapsed){
+  const rem = Math.max(0, SESSION_TOTAL - elapsed);
+  const pct = Math.min(100, (elapsed / SESSION_TOTAL) * 100);
+  const m = Math.floor(rem/60), s = rem%60;
+  const disp   = document.getElementById('sessDisplay');
+  const fill   = document.getElementById('sessFill');
+  const btn    = document.getElementById('sessBtn');
+  const cursor = document.getElementById('tlCursor');
+  if(disp){
+    disp.textContent = String(m).padStart(2,'0')+':'+String(s).padStart(2,'0');
+    if(rem <= 600){
+      disp.style.color='#DC2626';
+      if(fill) fill.style.background='#DC2626';
+    } else if(rem <= 1800){
+      disp.style.color='#D97706';
+      if(fill) fill.style.background='linear-gradient(90deg,#D97706,#FCD34D)';
+    } else {
+      disp.style.color='var(--green)';
+      if(fill) fill.style.background='linear-gradient(90deg,var(--green),#34D399)';
+    }
+  }
+  if(fill)   fill.style.width   = Math.max(0, 100 - pct) + '%';
+  if(cursor) cursor.style.left  = pct + '%';
+  if(btn){
+    const running = sessState.startedAt != null;
+    btn.textContent = running ? '⏸ إيقاف مؤقت' : (elapsed > 0 ? '▶ استمرار' : '▶ ابدأ الجلسة');
+    btn.classList.toggle('sess-running', running);
+  }
+  if(rem === 0 && sessIv){ clearInterval(sessIv); sessIv = null; }
+}
+function sessToggle(){
+  if(sessState.startedAt){
+    sessState.savedElapsed = sessElapsed(); sessState.startedAt = null;
+    sessSave(sessState); clearInterval(sessIv); sessIv = null;
+  } else {
+    sessState.startedAt = Date.now(); sessSave(sessState);
+    sessIv = setInterval(()=>{
+      const e = sessElapsed();
+      sessSave({...sessState, savedElapsed: e});
+      sessUpdateUI(e);
+    }, 1000);
+  }
+  sessUpdateUI(sessElapsed());
+}
+(function(){
+  const e = sessElapsed(); sessUpdateUI(e);
+  if(sessState.startedAt){
+    sessIv = setInterval(()=>{
+      const el = sessElapsed();
+      sessSave({...sessState, savedElapsed: el});
+      sessUpdateUI(el);
+    }, 1000);
+  }
+})();
+</script>
+<script>
+// Simulate progress tracking via localStorage
+const visited = JSON.parse(localStorage.getItem('s1_visited')||'[]');
+const total = 10;
+const pct = Math.round((visited.length/total)*100);
+document.getElementById('totalProgress').style.width = pct+'%';
+document.getElementById('totalProgressLbl').textContent = visited.length + ' من ' + total + ' أنشطة مكتملة';
+</script>
+</body></html>
