@@ -735,100 +735,7 @@ function timerReset(id, mins) {
 // ══════════════════════════════════════════════
 //  LIVE POLL ENGINE — trainer-controlled
 // ══════════════════════════════════════════════
-const LP_KEY = 's1_livepoll';
-const LP_COLORS  = ['#10B981','#2563EB','#D97706','#DC2626'];
-const LP_MAXH    = 155; // max bar height px
 
-let lpVotes = [0, 0, 0, 0];
-
-function lpSave() {
-  try { localStorage.setItem(LP_KEY, JSON.stringify(lpVotes)); } catch(e) {}
-}
-function lpLoad() {
-  try {
-    const d = JSON.parse(localStorage.getItem(LP_KEY) || 'null');
-    if (Array.isArray(d) && d.length === 4) lpVotes = d;
-  } catch(e) {}
-}
-
-function addVote(idx) {
-  lpVotes[idx]++;
-  lpSave();
-  lpRender(idx);
-}
-
-function undoVote(idx) {
-  if (lpVotes[idx] > 0) { lpVotes[idx]--; lpSave(); lpRender(idx); }
-}
-
-function lpReset() {
-  lpVotes = [0,0,0,0]; lpSave(); lpRender(-1);
-  document.getElementById('lpReveal').classList.remove('show');
-}
-
-function lpReveal() {
-  document.getElementById('lpReveal').classList.add('show');
-  document.getElementById('lpReveal').scrollIntoView({behavior:'smooth',block:'nearest'});
-}
-
-function lpRender(changedIdx) {
-  const total = lpVotes.reduce((a,b) => a+b, 0);
-
-  // update count badges on buttons
-  lpVotes.forEach((v, i) => {
-    const el = document.getElementById('cnt' + i);
-    if (el) {
-      el.textContent = v;
-      if (i === changedIdx && v > 0) {
-        el.classList.remove('bump');
-        void el.offsetWidth; // reflow
-        el.classList.add('bump');
-      }
-    }
-    // highlight button if has votes
-    const btn = document.getElementById('opt' + i);
-    if (btn) {
-      if (v > 0) {
-        btn.style.background = LP_COLORS[i] + '15';
-        btn.style.borderColor = LP_COLORS[i];
-      } else {
-        btn.style.background = '';
-        btn.style.borderColor = '';
-      }
-    }
-  });
-
-  // total badge
-  document.getElementById('lpTotalNum').textContent = total;
-
-  // show/hide chart vs empty state
-  const isEmpty = total === 0;
-  document.getElementById('lpEmpty').style.display = isEmpty ? 'flex' : 'none';
-  document.getElementById('lpChart').style.display = isEmpty ? 'none' : 'block';
-
-  if (isEmpty) return;
-
-  // render bars
-  const maxVotes = Math.max(...lpVotes, 1);
-  lpVotes.forEach((v, i) => {
-    const barEl  = document.getElementById('bar' + i);
-    const valEl  = document.getElementById('bval' + i);
-    const pctEl  = document.getElementById('bpct' + i);
-
-    const h   = Math.round((v / maxVotes) * LP_MAXH);
-    const pct = total > 0 ? Math.round((v / total) * 100) : 0;
-
-    if (barEl) barEl.style.height = h + 'px';
-    if (valEl) valEl.textContent  = v > 0 ? v : '';
-    if (pctEl) pctEl.textContent  = v > 0 ? pct + '%' : '';
-  });
-}
-
-// init on page load
-(function() {
-  lpLoad();
-  lpRender(-1);
-})();
 </script>
 <script>
 
@@ -885,4 +792,4 @@ function sessReset(){
 })();
 
 </script>
-<script>try{const v=JSON.parse(localStorage.getItem('s1_visited')||'[]');if(!v.includes(0)){v.push(0);localStorage.setItem('s1_visited',JSON.stringify(v));}}</script></body></html>
+<script>try{const v=JSON.parse(localStorage.getItem('s1_visited')||'[]');if(!v.includes(0)){v.push(0);localStorage.setItem('s1_visited',JSON.stringify(v));}}catch(e){}</script></body></html>
