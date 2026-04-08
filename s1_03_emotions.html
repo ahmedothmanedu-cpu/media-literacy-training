@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>نشاط: اختبار المشاعر والتحليل | الثقافة الإعلامية</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&family=Tajawal:wght@300;400;500;700;800&display=swap" rel="stylesheet">
+<style>
+
+  :root {
+    --bg:#F0F4FF; --bg2:#E8EEFF; --white:#FFFFFF;
+    --navy:#1E3A6E; --blue:#2563EB; --blue-lt:#3B82F6; --blue-pale:#DBEAFE;
+    --cyan:#0891B2; --cyan-pale:#CFFAFE;
+    --teal:#0F766E; --teal-pale:#CCFBF1;
+    --green:#059669; --green-pale:#D1FAE5;
+    --orange:#EA580C; --orange-pale:#FED7AA;
+    --amber:#D97706; --amber-pale:#FEF3C7;
+    --purple:#7C3AED; --purple-pale:#EDE9FE;
+    --red:#DC2626; --red-pale:#FEE2E2;
+    --rose:#BE185D; --rose-pale:#FCE7F3;
+    --text:#111827; --text2:#374151; --text3:#6B7280;
+    --border:#D1D5DB; --border2:#E5E7EB;
+    --shadow:0 2px 12px rgba(30,58,110,0.08);
+    --shadow-md:0 4px 24px rgba(30,58,110,0.12);
+    --shadow-lg:0 8px 40px rgba(30,58,110,0.16);
+  }
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Cairo','Tajawal',sans-serif;background:var(--bg);color:var(--text);font-size:17px;line-height:1.6;direction:rtl}
+h1,h2,h3,h4{font-family:'Cairo',sans-serif}
+a{text-decoration:none;color:inherit}
+button{font-family:'Cairo',sans-serif;cursor:pointer}
+
+/* ── NAV BAR ── */
+.topnav{background:var(--navy);padding:0;position:sticky;top:0;z-index:100;box-shadow:0 2px 12px rgba(0,0,0,0.2)}
+.topnav-inner{max-width:1000px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:0 20px;height:56px;gap:12px}
+.nav-brand{color:#fff;font-size:15px;font-weight:800;white-space:nowrap;opacity:.9}
+.nav-steps{display:flex;gap:4px;align-items:center;flex-wrap:nowrap;overflow-x:auto}
+.nav-step{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;color:rgba(255,255,255,0.5);border:2px solid rgba(255,255,255,0.15);transition:all .2s;flex-shrink:0;text-decoration:none}
+.nav-step:hover{border-color:rgba(255,255,255,0.5);color:#fff}
+.nav-step.current{background:#fff;color:var(--navy);border-color:#fff}
+.nav-step.done{background:rgba(5,150,105,0.3);border-color:#34D399;color:#6EE7B7}
+.nav-btns{display:flex;gap:8px;flex-shrink:0}
+.btn-nav{padding:7px 16px;border-radius:8px;font-size:14px;font-weight:700;border:none;transition:all .2s;white-space:nowrap}
+.btn-prev{background:rgba(255,255,255,0.1);color:#fff}
+.btn-prev:hover{background:rgba(255,255,255,0.2)}
+.btn-next{background:var(--blue);color:#fff;box-shadow:0 2px 8px rgba(37,99,235,0.4)}
+.btn-next:hover{background:var(--blue-lt)}
+
+/* ── ACTIVITY HEADER ── */
+.act-hero{padding:36px 20px 28px;text-align:center;position:relative;overflow:hidden}
+.act-num-badge{display:inline-flex;align-items:center;gap:8px;border-radius:100px;padding:6px 18px;font-size:14px;font-weight:800;margin-bottom:14px}
+.act-hero h1{font-size:clamp(1.8rem,4vw,2.8rem);font-weight:900;margin-bottom:8px}
+.act-hero p.subtitle{font-size:1.1rem;opacity:.75;max-width:600px;margin:0 auto 18px}
+.act-meta-row{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.meta-chip{display:flex;align-items:center;gap:6px;padding:7px 16px;border-radius:10px;font-size:14px;font-weight:700;background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.25);color:rgba(255,255,255,0.95)}
+
+/* ── TIMER ── */
+/* ── STICKY TIMER STRIP ── */
+.sticky-timer{position:sticky;top:56px;z-index:99;background:var(--white);
+  border-bottom:2px solid var(--border2);box-shadow:0 3px 12px rgba(30,58,110,0.09);
+  padding:0}
+.sticky-timer-inner{max-width:1000px;margin:0 auto;padding:8px 20px;
+  display:flex;align-items:center;gap:12px}
+.timer-display{font-size:1.6rem;font-weight:900;font-family:'Cairo',monospace;
+  min-width:76px;text-align:center;letter-spacing:1px}
+.timer-track{flex:1;height:8px;background:var(--border2);border-radius:100px;overflow:hidden}
+.timer-fill{height:100%;border-radius:100px;transition:width 1s linear;width:0%}
+.timer-activity-name{font-size:13px;font-weight:800;color:var(--text3);
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:220px}
+.btn-timer{padding:7px 16px;border-radius:8px;font-size:13px;font-weight:800;
+  border:none;transition:all .2s;white-space:nowrap;flex-shrink:0}
+.btn-timer-reset{padding:7px 10px;border-radius:8px;font-size:13px;font-weight:800;
+  border:1.5px solid var(--border2);background:var(--bg2);color:var(--text3);
+  cursor:pointer;transition:all .2s;flex-shrink:0}
+.btn-timer-reset:hover{border-color:var(--orange);color:var(--orange)}
+/* keep old class for compat but hide inline timer-bar */
+.timer-bar{display:none!important}
+
+/* ── CONTENT CONTAINER ── */
+.page-body{max-width:1000px;margin:0 auto;padding:0 20px 60px}
+
+/* ── CARDS ── */
+.card{background:var(--white);border:1.5px solid var(--border2);border-radius:18px;padding:24px;box-shadow:var(--shadow);margin-bottom:20px}
+.card:hover{box-shadow:var(--shadow-md)}
+.card-title{font-size:18px;font-weight:800;color:var(--navy);margin-bottom:12px;display:flex;align-items:center;gap:10px}
+.card-icon{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+
+/* ── SECTION HEADER ── */
+.sec-h{font-size:14px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;color:var(--text3);margin-bottom:16px;display:flex;align-items:center;gap:10px}
+.sec-h::after{content:'';flex:1;height:2px;background:var(--border2);border-radius:2px}
+
+/* ── GRID ── */
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+@media(max-width:640px){.grid-2,.grid-3{grid-template-columns:1fr}.topnav-inner{flex-wrap:wrap;height:auto;padding:10px 14px}.nav-steps{display:none}}
+
+/* ── BOTTOM NAV ── */
+.bottom-nav{background:var(--white);border-top:2px solid var(--border2);padding:16px 20px;display:flex;justify-content:space-between;align-items:center;position:sticky;bottom:0;box-shadow:0 -4px 20px rgba(30,58,110,0.08)}
+.bottom-nav-info{text-align:center;font-size:14px;color:var(--text3);flex:1}
+.bottom-nav-info strong{color:var(--navy);display:block;font-size:16px}
+.btn-lg{padding:12px 28px;border-radius:12px;font-size:16px;font-weight:800;border:none;transition:all .2s}
+.btn-lg-prev{background:var(--bg2);color:var(--text3);border:1.5px solid var(--border)}
+.btn-lg-next{background:var(--blue);color:#fff;box-shadow:0 4px 14px rgba(37,99,235,0.3)}
+.btn-lg-next:hover{background:var(--blue-lt)}
+
+/* ── PROGRESS DOTS ── */
+.progress-track{display:flex;gap:6px;justify-content:center;margin-bottom:24px}
+.progress-dot{width:10px;height:10px;border-radius:50%;background:var(--border);transition:all .3s}
+.progress-dot.active{background:var(--blue);width:28px;border-radius:10px}
+.progress-dot.done{background:var(--green)}
+
+/* ── LIVE POLL ── */
+.lp-wrap{background:var(--white);border:2px solid var(--border2);border-radius:18px;
+  overflow:hidden;box-shadow:var(--shadow-md);margin-bottom:20px}
+.lp-header{background:linear-gradient(135deg,#0c2461,#0891B2);padding:20px 24px}
+.lp-title{font-size:17px;font-weight:900;color:#fff;margin-bottom:4px}
+.lp-sub{font-size:13px;color:rgba(255,255,255,.7)}
+.lp-body{padding:24px}
+.lp-layout{display:grid;grid-template-columns:1fr 1.4fr;gap:20px;align-items:start}
+.lp-controls{display:flex;flex-direction:column;gap:10px}
+.lp-opt-btn{display:flex;align-items:center;gap:12px;border:2px solid var(--border2);
+  border-radius:14px;padding:12px 16px;background:var(--white);cursor:pointer;
+  transition:all .2s;text-align:right;direction:rtl;width:100%}
+.lp-opt-btn:hover{box-shadow:var(--shadow-md);transform:translateX(-2px)}
+.lp-opt-btn.voted{border-width:2.5px}
+.lp-opt-emoji{font-size:22px;flex-shrink:0}
+.lp-opt-label{font-size:14px;font-weight:800;color:var(--navy);flex:1;text-align:right}
+.lp-opt-count{font-size:20px;font-weight:900;min-width:32px;text-align:center;
+  transition:all .3s;display:flex;align-items:center;justify-content:center}
+.lp-add-btn{padding:9px 0;border-radius:10px;border:none;font-family:'Cairo',sans-serif;
+  font-size:14px;font-weight:800;color:#fff;cursor:pointer;flex:1;
+  transition:all .2s}
+.lp-add-btn:hover{filter:brightness(1.12);transform:translateY(-1px)}
+.lp-add-row{display:flex;gap:8px}
+.lp-undo{padding:9px 14px;border-radius:10px;background:var(--bg2);
+  border:1.5px solid var(--border2);font-family:'Cairo',sans-serif;
+  font-size:13px;font-weight:800;color:var(--text3);cursor:pointer;
+  transition:all .2s;white-space:nowrap}
+.lp-undo:hover{border-color:var(--red);color:var(--red)}
+.lp-chart-side{display:flex;flex-direction:column;gap:0}
+.lp-empty-state{display:flex;flex-direction:column;align-items:center;justify-content:center;
+  height:200px;gap:10px;color:var(--text3)}
+.lp-empty-icon{font-size:40px;opacity:.35}
+.lp-empty-txt{font-size:14px;font-weight:700;opacity:.5;text-align:center;line-height:1.6}
+.lp-bars-wrap{display:flex;align-items:flex-end;gap:8px;height:180px;
+  border-bottom:2px solid var(--border2);padding-bottom:4px}
+.lp-bar-col{flex:1;display:flex;flex-direction:column;align-items:center;
+  justify-content:flex-end;position:relative}
+.lp-bar-body{width:100%;border-radius:10px 10px 0 0;
+  transition:height .55s cubic-bezier(.34,1.2,.64,1);
+  min-height:0;position:relative;display:flex;align-items:flex-start;justify-content:center}
+.lp-bar-count{font-size:16px;font-weight:900;margin-top:6px;
+  transition:all .3s;color:inherit}
+.lp-bar-pct{font-size:11px;font-weight:800;position:absolute;bottom:-18px;
+  left:50%;transform:translateX(-50%);color:var(--text3);white-space:nowrap}
+.lp-bar-emoji{font-size:13px;position:absolute;top:6px;left:50%;transform:translateX(-50%)}
+.lp-bar-lbl{font-size:10.5px;font-weight:700;color:var(--text3);
+  text-align:center;margin-top:22px;line-height:1.3;max-width:72px}
+.lp-status{display:flex;align-items:center;justify-content:space-between;
+  flex-wrap:wrap;gap:8px;margin-top:18px;padding-top:14px;
+  border-top:1.5px solid var(--border2)}
+.lp-total-badge{display:flex;align-items:center;gap:8px;
+  background:var(--cyan-pale);border:1.5px solid #67E8F9;border-radius:10px;
+  padding:8px 16px}
+.lp-total-num{font-size:24px;font-weight:900;color:var(--cyan)}
+.lp-total-lbl{font-size:12px;font-weight:700;color:var(--cyan)}
+.lp-reset-btn{padding:7px 16px;border-radius:9px;background:var(--bg2);
+  border:1.5px solid var(--border);font-family:'Cairo',sans-serif;
+  font-size:13px;font-weight:800;color:var(--text3);cursor:pointer;transition:all .2s}
+.lp-reset-btn:hover{border-color:var(--red);color:var(--red)}
+.lp-reveal{margin-top:16px;background:linear-gradient(135deg,#0F766E,#059669);
+  border-radius:14px;padding:18px 20px;display:none}
+.lp-reveal.show{display:block;animation:popIn .4s ease}
+.lp-reveal-title{font-size:12px;font-weight:800;color:rgba(255,255,255,.75);
+  text-transform:uppercase;letter-spacing:1px;margin-bottom:8px}
+.lp-reveal-text{font-size:15px;font-weight:700;color:#fff;line-height:1.7}
+.lp-guide{background:rgba(30,58,110,0.06);border:1.5px solid var(--border2);
+  border-radius:12px;padding:14px 18px;display:flex;align-items:flex-start;gap:12px}
+.lp-guide-icon{font-size:20px;flex-shrink:0;margin-top:2px}
+.lp-guide-text{font-size:13px;color:var(--text2);line-height:1.7}
+.lp-guide-text strong{color:var(--navy)}
+@keyframes bump{0%,100%{transform:scale(1)}50%{transform:scale(1.25)}}
+.bump{animation:bump .3s ease}
+@media(max-width:640px){.lp-layout{grid-template-columns:1fr}}
+.chat-box{background:var(--bg2);border:1.5px solid var(--border2);border-radius:12px;padding:16px;
+  font-size:15px;color:var(--text2);line-height:1.8;min-height:80px;outline:none}
+.chat-box[contenteditable]:empty::before{content:attr(data-placeholder);color:var(--text3)}
+.response-bubble{background:var(--blue-pale);border:1.5px solid #93C5FD;border-radius:12px;padding:12px 16px;
+  margin-bottom:8px;font-size:15px;color:var(--navy);animation:fadeIn .4s ease}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.icon-circle{width:44px;height:44px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0}
+
+/* ── CHAT INPUT WIDGET ── */
+.chat-input-widget{background:var(--white);border:2px solid var(--border2);border-radius:16px;
+  overflow:hidden;box-shadow:var(--shadow);margin-bottom:20px}
+.ciw-header{background:var(--navy);padding:10px 18px;display:flex;align-items:center;gap:10px}
+.ciw-dot{width:10px;height:10px;border-radius:50%;animation:livepulse 2s infinite}
+.ciw-title{font-size:14px;font-weight:800;color:#fff;flex:1}
+.ciw-body{padding:14px 16px}
+.ciw-prompt{font-size:14px;color:var(--text3);margin-bottom:10px;line-height:1.6}
+.ciw-prompt strong{color:var(--navy)}
+.ciw-textarea{width:100%;border:1.5px solid var(--border2);border-radius:10px;
+  padding:12px 14px;font-family:'Cairo','Tajawal',sans-serif;font-size:15px;
+  color:var(--text);background:var(--bg2);outline:none;resize:none;direction:rtl;
+  transition:border-color .25s,box-shadow .25s;line-height:1.7}
+.ciw-textarea:focus{border-color:var(--blue);background:var(--white);
+  box-shadow:0 0 0 3px rgba(37,99,235,0.1)}
+.ciw-footer{display:flex;align-items:center;justify-content:space-between;
+  margin-top:10px;gap:10px}
+.ciw-counter{font-size:12px;color:var(--text3)}
+.ciw-send{padding:8px 20px;border-radius:8px;font-family:'Cairo',sans-serif;
+  font-size:14px;font-weight:800;border:none;cursor:pointer;transition:all .2s;
+  color:#fff}
+.ciw-send:hover{opacity:.88;transform:translateY(-1px)}
+.ciw-responses{margin-top:10px;display:flex;flex-direction:column;gap:8px}
+.ciw-bubble{background:var(--bg2);border:1.5px solid var(--border2);border-radius:10px;
+  padding:10px 14px;font-size:14px;color:var(--text2);line-height:1.6;
+  animation:popIn .35s ease;display:flex;gap:10px;align-items:flex-start}
+.ciw-bubble-txt{flex:1}
+.ciw-bubble-del{font-size:14px;color:var(--text3);cursor:pointer;opacity:.5;
+  flex-shrink:0;transition:opacity .2s}
+.ciw-bubble-del:hover{opacity:1;color:var(--red)}
+@keyframes popIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+@keyframes livepulse{0%,100%{opacity:1}50%{opacity:.4}}
+
+/* ── SESSION TIMER IN STICKY BAR ── */
+.sticky-timer-inner{border-bottom:none}
+.sbar-divider{width:1px;height:32px;background:var(--border2);flex-shrink:0}
+.sbar-session{display:flex;align-items:center;gap:8px;flex-shrink:0}
+.sbar-session-label{font-size:11px;font-weight:800;color:var(--text3);
+  text-transform:uppercase;letter-spacing:.5px;white-space:nowrap}
+.sbar-session-display{font-size:1.45rem;font-weight:900;font-family:'Cairo',monospace;
+  letter-spacing:1px;min-width:62px;text-align:center}
+.sbar-session-track{width:80px;height:6px;background:var(--border2);
+  border-radius:100px;overflow:hidden;flex-shrink:0}
+.sbar-session-fill{height:100%;border-radius:100px;
+  background:linear-gradient(90deg,var(--green),#34D399);
+  transition:width 1s linear;width:100%}
+.btn-sess{padding:5px 10px;border-radius:7px;font-family:'Cairo',sans-serif;
+  font-size:12px;font-weight:800;border:1.5px solid var(--border2);
+  background:var(--bg2);color:var(--text3);cursor:pointer;transition:all .2s;white-space:nowrap}
+.btn-sess:hover{border-color:var(--green);color:var(--green)}
+.btn-sess.sess-running{background:var(--green-pale);border-color:var(--green);color:var(--green)}
+
+/* ══ COLLABORATIVE POLL — Firebase v3 ══ */
+.cpoll-wrap{margin-bottom:20px;font-family:'Cairo','Tajawal',sans-serif}
+.cpoll-hdr{background:linear-gradient(135deg,#0c2461,#1d4ed8);border-radius:16px;padding:20px 22px;margin-bottom:14px}
+.cpoll-q{font-size:17px;font-weight:900;color:#fff;margin-bottom:6px;line-height:1.5}
+.cpoll-sub{font-size:12px;color:rgba(255,255,255,.65)}
+.cpoll-tabs{display:flex;margin-bottom:14px;border:1.5px solid var(--border2);border-radius:12px;overflow:hidden}
+.cpoll-tab{flex:1;padding:11px 8px;border:none;font-family:'Cairo',sans-serif;font-size:14px;font-weight:800;cursor:pointer;text-align:center;background:var(--white);color:var(--text3);transition:all .18s}
+.cpoll-tab.active{background:var(--blue);color:#fff}
+.cpoll-tab:first-child{border-left:.5px solid var(--border2)}
+.cpoll-voter,.cpoll-trainer{display:none}
+.cpoll-voter.show,.cpoll-trainer.show{display:block}
+.cpoll-note{background:var(--blue-pale);border-right:4px solid var(--blue);border-radius:0 10px 10px 0;padding:10px 14px;font-size:13px;color:var(--navy);margin-bottom:14px;line-height:1.7}
+.cpoll-opt{width:100%;padding:13px 16px;border-radius:12px;border:1.5px solid var(--border2);background:var(--white);font-family:'Cairo',sans-serif;font-size:15px;font-weight:700;cursor:pointer;text-align:right;margin-bottom:8px;display:flex;align-items:center;gap:10px;transition:all .2s;direction:rtl}
+.cpoll-opt:hover:not(:disabled){background:var(--blue-pale);border-color:var(--blue-lt)}
+.cpoll-opt:disabled{opacity:.6;cursor:default}
+.cpoll-opt.voted{border-width:2.5px}
+.cpoll-opt-em{font-size:22px;width:28px;flex-shrink:0}
+.cpoll-opt-lbl{flex:1;text-align:right}
+.cpoll-opt-cnt{font-size:20px;font-weight:900;min-width:32px;text-align:center;transition:all .3s}
+.cpoll-vmsg{background:var(--green-pale);border:1.5px solid #6EE7B7;border-radius:12px;padding:12px 16px;font-size:14px;font-weight:700;color:var(--green);margin-top:10px;text-align:center;display:none}
+.cpoll-offline{background:var(--amber-pale);border:1.5px solid #FCD34D;border-right:4px solid var(--amber);border-radius:0 12px 12px 0;padding:14px 16px;font-size:13px;color:var(--text2);margin-bottom:14px;line-height:1.8}
+.cpoll-offline a{color:var(--blue);font-weight:800;text-decoration:underline}
+.cpoll-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:16px}
+.cpoll-stat{background:var(--white);border:1.5px solid var(--border2);border-radius:12px;padding:12px 10px;text-align:center}
+.cpoll-sv{font-size:22px;font-weight:900;color:var(--navy);margin-bottom:4px;transition:all .4s}
+.cpoll-sl{font-size:11px;font-weight:700;color:var(--text3);line-height:1.4}
+.cpoll-rl{font-size:12px;font-weight:800;color:var(--text3);text-transform:uppercase;letter-spacing:.5px;margin:12px 0 10px;padding-bottom:6px;border-bottom:1.5px solid var(--border2)}
+.cpoll-bw{margin-bottom:12px}
+.cpoll-br{display:flex;justify-content:space-between;align-items:center;margin-bottom:5px;direction:rtl}
+.cpoll-bn{font-size:14px;font-weight:800;color:var(--navy);display:flex;align-items:center;gap:6px}
+.cpoll-bi{font-size:12px;color:var(--text3);font-weight:700;transition:all .4s}
+.cpoll-bt{height:30px;background:var(--bg2);border-radius:8px;overflow:hidden;border:1.5px solid var(--border2);position:relative}
+.cpoll-bf{position:absolute;right:0;top:0;height:100%;border-radius:8px;transition:width .65s cubic-bezier(.34,1.2,.64,1);display:flex;align-items:center;padding-right:8px;justify-content:flex-end}
+.cpoll-bf span{font-size:11px;font-weight:900;color:#fff;white-space:nowrap}
+.cpoll-live-dot{width:8px;height:8px;border-radius:50%;background:#22C55E;display:inline-block;margin-left:6px;animation:livepulse 2s infinite}
+@keyframes livepulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.85)}}
+.cpoll-prow{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px;min-height:22px}
+.cpoll-chip{font-size:12px;padding:4px 12px;border-radius:20px;border:1.5px solid var(--border2);color:var(--text3);font-weight:700;transition:all .4s}
+.cpoll-chip.ok{border-color:#6EE7B7;color:var(--green);background:var(--green-pale)}
+.cpoll-actions{display:flex;justify-content:space-between;align-items:center;margin-top:8px}
+.cpoll-rbtn{font-size:13px;padding:7px 16px;border-radius:8px;border:1.5px solid var(--border2);background:var(--bg2);color:var(--text3);cursor:pointer;font-family:'Cairo',sans-serif;font-weight:700;transition:all .2s}
+.cpoll-rbtn:hover{border-color:var(--red);color:var(--red)}
+.cpoll-upd{font-size:11px;color:var(--text3)}
+@media(max-width:640px){.cpoll-stats{grid-template-columns:repeat(2,1fr)}}
+
+/* ── SLIDE IMAGES ── */
+.slide-img-wrap{background:var(--white);border:1.5px solid var(--border2);border-radius:18px;overflow:hidden;box-shadow:var(--shadow-md);margin-bottom:20px}
+.slide-img-wrap img{width:100%;height:auto;display:block}
+.slide-img-caption{padding:12px 18px;font-size:13px;color:var(--text3);font-weight:700;background:var(--bg2);border-top:1.5px solid var(--border2);line-height:1.6}
+.slide-img-caption strong{color:var(--navy)}
+.inf-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:20px}
+@media(max-width:640px){.inf-grid{grid-template-columns:repeat(2,1fr)}}
+.inf-card{background:var(--white);border:1.5px solid var(--border2);border-radius:14px;overflow:hidden;box-shadow:var(--shadow);text-align:center}
+.inf-card img{width:100%;height:130px;object-fit:cover;object-position:top}
+.inf-card-name{padding:8px 10px;font-size:12px;font-weight:800;color:var(--navy);line-height:1.4}
+.yt-embed{background:var(--white);border:1.5px solid var(--border2);border-radius:14px;overflow:hidden;box-shadow:var(--shadow-md);margin-bottom:20px}
+.yt-embed iframe{width:100%;height:0;padding-bottom:56.25%;position:relative;display:block}
+.yt-wrap{position:relative;padding-bottom:56.25%;height:0;overflow:hidden}
+.yt-wrap iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:none}
+
+</style>
+<!-- Firebase SDK + Config -->
+<script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-database-compat.js"></script>
+<script>
+window.FIREBASE_CONFIG = {
+  apiKey:            "AIzaSyA_O4MmUccnk4xKmNVTzOH6YtKFCWQgZQ4",
+  authDomain:        "media-literacy-training.firebaseapp.com",
+  databaseURL:       "https://media-literacy-training-default-rtdb.firebaseio.com",
+  projectId:         "media-literacy-training",
+  storageBucket:     "media-literacy-training.firebasestorage.app",
+  messagingSenderId: "652579612215",
+  appId:             "1:652579612215:web:081508aa102a4b3948c1b2"
+};
+window.FIREBASE_READY = true;
+</script>
+</head>
+<body>
+<nav class="topnav">
+  <div class="topnav-inner">
+    <a href="index_s1.html" style="display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.25);border-radius:8px;padding:6px 14px;font-size:13px;font-weight:700;color:#fff;text-decoration:none" onmouseover="this.style.background='rgba(255,255,255,0.22)'" onmouseout="this.style.background='rgba(255,255,255,0.12)'">🏠 الرئيسية</a>
+    <div class="nav-brand">الجلسة الأولى · الثقافة الإعلامية والمؤثرون</div>
+    <div class="nav-steps"><a href="s1_01_opening.html" class="nav-step " title="الافتتاح وكسر الجليد">1</a><a href="s1_02_activity1.html" class="nav-step " title="ماذا تحب في الإعلام؟">2</a><a href="s1_03_emotions.html" class="nav-step current" title="نشاط: اختبار المشاعر">3</a><a href="s1_04_break.html" class="nav-step " title="استراحة">4</a><a href="s1_05_influencers.html" class="nav-step " title="المؤثرون وتأثيرهم">5</a><a href="s1_06_meme.html" class="nav-step " title="إنشاء Meme + تقييم">6</a></div>
+    <div class="nav-btns"><a href="s1_02_activity1.html"><button class="btn-nav btn-prev">→ ماذا تحب في الإعلام؟</button></a><a href="s1_04_break.html"><button class="btn-nav btn-next">استراحة ←</button></a></div>
+  </div>
+</nav>
+<div class="sticky-timer">
+  <div class="sticky-timer-inner">
+    <button class="btn-timer" id="mainTimerBtn" onclick="timerToggle('mainTimer',900)" style="background:#DC2626">▶ ابدأ</button>
+    <div class="timer-track"><div class="timer-fill" id="mainTimerFill" style="background:#DC2626"></div></div>
+    <div class="timer-display" id="mainTimerDisplay" style="color:#DC2626">15:00</div>
+    <div class="timer-activity-name">💥 نشاط اختبار المشاعر</div>
+    <button class="btn-timer-reset" onclick="timerReset('mainTimer',15)" title="إعادة">↺</button>
+    <div class="sbar-divider"></div>
+    <div class="sbar-session">
+      <div class="sbar-session-label">الجلسة</div>
+      <div class="sbar-session-track"><div class="sbar-session-fill" id="sessFill"></div></div>
+      <div class="sbar-session-display" id="sessDisplay" style="color:var(--green)">75:00</div>
+      <button class="btn-sess" id="sessBtn" onclick="sessToggle()">▶ الجلسة</button>
+      <button class="btn-sess" onclick="sessReset()" title="إعادة ضبط" style="padding:5px 8px">↺</button>
+    </div>
+  </div>
+</div>
+<div class="act-hero" style="background:linear-gradient(135deg,#7F1D1D,#DC2626)">
+  <div class="act-num-badge" style="background:rgba(255,255,255,0.15);color:#FCA5A5">💥 نشاط · ٣</div>
+  <h1 style="color:#fff">اختبر مشاعرك وحلّل</h1>
+  <p class="subtitle" style="color:#FCA5A5">كيف يستغل الإعلام عواطفنا لتشكيل آرائنا؟</p>
+  <div class="act-meta-row"><div class="meta-chip">⏱ 15 دقيقة</div><div class="meta-chip">🧠 تفكير نقدي</div><div class="meta-chip">💬 مشاركة جماعية</div></div>
+</div>
+<div class="page-body">
+<div class="progress-track"><div class="progress-dot done"></div><div class="progress-dot done"></div><div class="progress-dot active"></div><div class="progress-dot"></div><div class="progress-dot"></div><div class="progress-dot"></div></div>
+
+<style>
+.pptx-img{border-radius:14px;box-shadow:0 4px 20px rgba(30,58,110,0.15);max-width:100%;display:block}
+.img-caption{font-size:13px;color:var(--text3);text-align:center;margin-top:8px;font-weight:600}
+.img-center{text-align:center;margin:12px 0}
+.influencers-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:16px 0}
+.inf-card{background:var(--white);border:1.5px solid var(--border2);border-radius:14px;overflow:hidden;text-align:center;box-shadow:var(--shadow);transition:all .2s}
+.inf-card:hover{box-shadow:var(--shadow-md);transform:translateY(-2px)}
+.inf-card img{width:100%;height:130px;object-fit:cover}
+.inf-card-name{font-size:13px;font-weight:800;color:var(--navy);padding:8px 6px}
+@media(max-width:640px){.influencers-grid{grid-template-columns:repeat(2,1fr)}}
+
+<div class="card" style="margin-bottom:20px">
+  <div class="card-title"><div class="card-icon" style="background:#7C3AED">📱</div>أسئلة الثقافة الإعلامية الأساسية</div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+    <div class="img-center">
+      <div class="img-caption">الأسئلة الخمسة — بالعربية</div>
+    </div>
+    <div class="img-center">
+      <div class="img-caption">Key Questions — بالإنجليزية</div>
+    </div>
+  </div>
+</div>
+<div class="card" style="background:linear-gradient(135deg,#1c1917,#57534e);border:none;margin-bottom:20px">
+  <div style="color:rgba(255,255,255,0.75);font-size:13px;font-weight:800;margin-bottom:12px">📰 نشاط: اختبر مشاعرك تجاه هذه الصورة — Testing Emotions</div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+    <div style="background:rgba(255,255,255,0.1);border-radius:10px;padding:12px;text-align:center">
+      <div style="font-size:22px;margin-bottom:4px">😤</div>
+      <div style="color:#fff;font-size:13px;font-weight:700">ما مشاعرك الأولى؟</div>
+    </div>
+    <div style="background:rgba(255,255,255,0.1);border-radius:10px;padding:12px;text-align:center">
+      <div style="font-size:22px;margin-bottom:4px">🔍</div>
+      <div style="color:#fff;font-size:13px;font-weight:700">هل تحققت من السياق؟</div>
+    </div>
+  </div>
+</div>
+<div class="card" style="background:linear-gradient(135deg,#1e293b,#0891B2);border:none"></div>
+
+<div class="card">
+  <div class="card-title"><div class="card-icon" style="background:#DC2626">📸</div>صور للتحليل — طبّق عليها أسئلة المشاعر الستة</div>
+  <p style="color:var(--text2);font-size:14px;margin-bottom:14px;line-height:1.7">انظر لكل صورة وطبّق الأسئلة الستة: ما مشاعرك؟ من نشرها؟ ما الهدف؟ هل تحققت؟</p>
+  <div class="grid-2">
+    <div class="slide-img-wrap" style="margin-bottom:0">
+      <img src="images/img_emotions.jpg" alt="صورة مثيرة للمشاعر">
+      <div class="slide-img-caption"><strong>📌 الصورة الأولى</strong> — ما مشاعرك الأولى؟ ما الرسالة؟</div>
+    </div>
+    <div class="slide-img-wrap" style="margin-bottom:0">
+      <img src="images/img_unrwa.jpg" alt="تقرير UNRWA">
+      <div class="slide-img-caption"><strong>📌 الصورة الثانية</strong> — ما مصدر هذا المحتوى؟ هل هو موثوق؟</div>
+    </div>
+  </div>
+</div>
+
+  <div style="color:rgba(255,255,255,0.7);font-size:13px;font-weight:800;text-transform:uppercase;letter-spacing:1px;margin-bottom:10px">🎯 هدف النشاط</div>
+  <div style="color:#fff;font-size:16px;font-weight:700;line-height:1.7">تعلّم كيف يستغل الإعلام مشاعرنا — الخوف، الغضب، الأمل — لجعلنا نصدق ونشارك محتوى بدون تفكير</div>
+</div>
+
+
+  </div>
+</div>
+
+<div class="card" style="background:linear-gradient(135deg,var(--navy),#7C3AED);border:none">
+  <div style="color:#fff;font-size:16px;font-weight:800;margin-bottom:8px">🧠 تذكّر دائماً</div>
+  <div style="color:rgba(255,255,255,0.85);font-size:16px;font-weight:600;line-height:1.8">المحتوى الذي يثير مشاعرك الشديدة (خوف، غضب، حماس مفرط) هو أكثر المحتوى الذي يحتاج للتحقق والتمحيص — فهو مصمم بعناية لإيقاف تفكيرك النقدي</div>
+</div>
+
+<div class="cpoll-wrap" id="cpwrap_p13">
+  <div class="cpoll-hdr">
+    <div class="cpoll-q">🤯 أي نوع من المحتوى يجعلك تشارك بدون التحقق منه؟</div>
+    <div class="cpoll-sub"><span class="cpoll-live-dot"></span> صوّت الآن — تظهر نتيجتك فوراً عند المدرب وجميع المشاركين</div>
+  </div>
+  <div class="cpoll-offline" id="cpoll_offline_p13" style="display:none">
+    ⚠️ الاستطلاع يعمل بوضع <strong>غير متصل</strong> — افتح <code>firebase-config.js</code> لتفعيل المشاركة الجماعية.
+  </div>
+  <div class="cpoll-tabs">
+    <button class="cpoll-tab active" onclick="cpR_p13('voter')">👤 أنا متدرب</button>
+    <button class="cpoll-tab" onclick="cpR_p13('trainer')">🎓 أنا المدرب</button>
+  </div>
+  <div class="cpoll-voter show" id="cpv_p13">
+    <div class="cpoll-note" id="cpoll_note_p13">اضغط على إجابتك — تُضاف فوراً وتظهر <strong>لحظياً</strong> عند المدرب وجميع المشاركين</div>
+    <button class="cpoll-opt" id="cpbo_a_p13" onclick="cpV_p13('a')"><span class="cpoll-opt-em">😡</span><span class="cpoll-opt-lbl">أخبار تثير الغضب الشديد</span><span class="cpoll-opt-cnt" id="cpc_a_p13" style="color:#DC2626">0</span></button>
+    <button class="cpoll-opt" id="cpbo_b_p13" onclick="cpV_p13('b')"><span class="cpoll-opt-em">😢</span><span class="cpoll-opt-lbl">محتوى حزين ومؤثر</span><span class="cpoll-opt-cnt" id="cpc_b_p13" style="color:#7C3AED">0</span></button>
+    <button class="cpoll-opt" id="cpbo_c_p13" onclick="cpV_p13('c')"><span class="cpoll-opt-em">😱</span><span class="cpoll-opt-lbl">أخبار مثيرة للصدمة</span><span class="cpoll-opt-cnt" id="cpc_c_p13" style="color:#D97706">0</span></button>
+    <button class="cpoll-opt" id="cpbo_d_p13" onclick="cpV_p13('d')"><span class="cpoll-opt-em">🤩</span><span class="cpoll-opt-lbl">محتوى مضحك أو مبهج</span><span class="cpoll-opt-cnt" id="cpc_d_p13" style="color:#059669">0</span></button>
+    
+    <div class="cpoll-vmsg" id="cvm_p13">✓ تم تسجيل إجابتك — تظهر الآن في لوحة المدرب</div>
+  </div>
+  <div class="cpoll-trainer" id="cpt_p13">
+    <div class="cpoll-stats" id="cpst_p13">
+      <div class="cpoll-stat"><div class="cpoll-sv">0</div><div class="cpoll-sl">إجمالي الأصوات</div></div>
+      <div class="cpoll-stat"><div class="cpoll-sv" style="color:var(--green)">0</div><div class="cpoll-sl">أجابوا</div></div>
+      <div class="cpoll-stat"><div class="cpoll-sv" style="color:var(--amber)">0</div><div class="cpoll-sl">لم يجيبوا</div></div>
+      <div class="cpoll-stat"><div class="cpoll-sv">—</div><div class="cpoll-sl">الأعلى تصويتاً</div></div>
+    </div>
+    <div class="cpoll-rl">النتائج التراكمية — حية <span class="cpoll-live-dot"></span></div>
+    <div class="cpoll-bw"><div class="cpoll-br"><div class="cpoll-bn">😡 أخبار تثير الغضب الشديد</div><div class="cpoll-bi" id="cpbi_a_p13">0 صوت · 0%</div></div><div class="cpoll-bt"><div class="cpoll-bf" id="cpbf_a_p13" style="width:0%;background:#DC2626"><span id="cpbfc_a_p13"></span></div></div></div>
+    <div class="cpoll-bw"><div class="cpoll-br"><div class="cpoll-bn">😢 محتوى حزين ومؤثر</div><div class="cpoll-bi" id="cpbi_b_p13">0 صوت · 0%</div></div><div class="cpoll-bt"><div class="cpoll-bf" id="cpbf_b_p13" style="width:0%;background:#7C3AED"><span id="cpbfc_b_p13"></span></div></div></div>
+    <div class="cpoll-bw"><div class="cpoll-br"><div class="cpoll-bn">😱 أخبار مثيرة للصدمة</div><div class="cpoll-bi" id="cpbi_c_p13">0 صوت · 0%</div></div><div class="cpoll-bt"><div class="cpoll-bf" id="cpbf_c_p13" style="width:0%;background:#D97706"><span id="cpbfc_c_p13"></span></div></div></div>
+    <div class="cpoll-bw"><div class="cpoll-br"><div class="cpoll-bn">🤩 محتوى مضحك أو مبهج</div><div class="cpoll-bi" id="cpbi_d_p13">0 صوت · 0%</div></div><div class="cpoll-bt"><div class="cpoll-bf" id="cpbf_d_p13" style="width:0%;background:#059669"><span id="cpbfc_d_p13"></span></div></div></div>
+    
+    <div class="cpoll-rl">المشاركون</div>
+    <div class="cpoll-prow" id="cppar_p13">
+      <div style="font-size:12px;color:var(--text3);font-style:italic">في انتظار أول متدرب يصوّت...</div>
+    </div>
+    <div class="cpoll-actions">
+      <button class="cpoll-rbtn" onclick="cpRst_p13()">↺ إعادة تعيين للجميع</button>
+      <span class="cpoll-upd" id="cpupd_p13"></span>
+    </div>
+  </div>
+</div>
+</div>
+<div class="bottom-nav">
+  <a href="s1_02_activity1.html"><button class="btn-lg btn-lg-prev">→ أحب وأكره</button></a>
+  <div class="bottom-nav-info"><strong>💥 نشاط اختبار المشاعر</strong>15 دقيقة</div>
+  <a href="s1_04_break.html"><button class="btn-lg btn-lg-next">استراحة ←</button></a>
+</div>
+
+<script>
+// ── ACTIVITY TIMER ──
+const _timers = {};
+let _masterIv = null;
+
+function _masterTick() {
+  let anyRunning = false;
+  Object.keys(_timers).forEach(id => {
+    const t = _timers[id];
+    if (!t.running) return;
+    anyRunning = true;
+    t.elapsed++;
+    const rem = Math.max(0, t.total - t.elapsed);
+    const pct = Math.min(100, (t.elapsed / t.total) * 100);
+    const fill = document.getElementById(id+'Fill');
+    const disp = document.getElementById(id+'Display');
+    const btn  = document.getElementById(id+'Btn');
+    if (fill) fill.style.width = pct + '%';
+    if (disp) {
+      const m = Math.floor(rem/60), s = rem%60;
+      disp.textContent = String(m).padStart(2,'0')+':'+String(s).padStart(2,'0');
+    }
+    if (pct > 80) { if(fill) fill.style.background='#DC2626'; if(disp) disp.style.color='#DC2626'; }
+    else if (pct > 60) { if(fill) fill.style.background='#D97706'; if(disp) disp.style.color='#D97706'; }
+    if (rem === 0) { t.running = false; if(btn){ btn.textContent='✓ انتهى'; btn.style.background='#059669'; } }
+  });
+  if (typeof sessState !== 'undefined' && sessState.startedAt) sessUpdateUI(sessElapsed());
+  if (!anyRunning) { clearInterval(_masterIv); _masterIv = null; }
+}
+
+function _startMaster() { if (!_masterIv) _masterIv = setInterval(_masterTick, 1000); }
+function _stopMaster() { if (_masterIv) { clearInterval(_masterIv); _masterIv = null; } }
+
+function timerToggle(id, total) {
+  if (!_timers[id]) _timers[id] = {elapsed:0, total, running:false};
+  const t = _timers[id];
+  const btn = document.getElementById(id+'Btn');
+  if (t.running) {
+    t.running = false;
+    if (btn) { btn.textContent='▶ استمرار'; btn.style.opacity='0.75'; }
+    if (typeof sessState !== 'undefined' && sessState.startedAt) {
+      sessState.savedElapsed = sessElapsed(); sessState.startedAt = null;
+      sessSave(sessState); sessUpdateUI(sessState.savedElapsed);
+    }
+    _stopMaster();
+  } else {
+    t.running = true;
+    if (btn) { btn.textContent='⏸ إيقاف'; btn.style.opacity='1'; }
+    if (typeof sessState !== 'undefined' && !sessState.startedAt) {
+      sessState.startedAt = Date.now(); sessSave(sessState);
+    }
+    _startMaster();
+  }
+}
+
+function timerReset(id, mins) {
+  _timers[id] = {elapsed:0, total:mins*60, running:false};
+  const fill = document.getElementById(id+'Fill');
+  const disp = document.getElementById(id+'Display');
+  const btn  = document.getElementById(id+'Btn');
+  if (fill) { fill.style.width='0%'; fill.style.background=''; }
+  if (disp) { disp.textContent=String(mins).padStart(2,'0')+':00'; disp.style.color=''; }
+  if (btn)  { btn.textContent='▶ ابدأ'; btn.style.background=''; btn.style.opacity='1'; }
+  const anyRunning = Object.values(_timers).some(t=>t.running);
+  if (!anyRunning) _stopMaster();
+}
+</script>
+
+<script>
+(function() {
+  var K = "p13";
+  var OPTS = [{"id": "a", "emoji": "😡", "label": "أخبار تثير الغضب الشديد", "color": "#DC2626"}, {"id": "b", "emoji": "😢", "label": "محتوى حزين ومؤثر", "color": "#7C3AED"}, {"id": "c", "emoji": "😱", "label": "أخبار مثيرة للصدمة", "color": "#D97706"}, {"id": "d", "emoji": "🤩", "label": "محتوى مضحك أو مبهج", "color": "#059669"}];
+  var pollPath = "polls/session1/" + K;
+  var voterPath = "polls/session1/" + K + "_voters";
+  var myVotePath = null;
+  var myVote = null;
+  var myName = null;
+  var fbDb = null;
+
+  function tot(votes) { return OPTS.reduce(function(s,o){ return s + (votes[o.id]||0); }, 0); }
+
+  function renderVoterPanel(votes) {
+    var T = tot(votes);
+    OPTS.forEach(function(o) {
+      var cnt = document.getElementById("cpc_" + o.id + "_" + K);
+      if (cnt) cnt.textContent = votes[o.id] || 0;
+      var btn = document.getElementById("cpbo_" + o.id + "_" + K);
+      if (btn) {
+        btn.classList.toggle("voted", myVote === o.id);
+        btn.style.borderColor = myVote === o.id ? o.color : "";
+        btn.style.background  = myVote === o.id ? o.color + "18" : "";
+      }
+    });
+    var vm = document.getElementById("cvm_" + K);
+    if (vm) vm.style.display = myVote ? "block" : "none";
+  }
+
+  function renderTrainerPanel(votes, voters) {
+    var T = tot(votes);
+    var voterList = voters ? Object.entries(voters) : [];
+    var answered  = voterList.filter(function(e){ return e[1].vote; }).length;
+    var waiting   = voterList.filter(function(e){ return !e[1].vote; }).length;
+    var leading   = T > 0 ? OPTS.reduce(function(mx,o){ return (votes[o.id]||0) > (votes[mx.id]||0) ? o : mx; }, OPTS[0]) : null;
+
+    var se = document.getElementById("cpst_" + K);
+    if (se) se.innerHTML =
+      "<div class='cpoll-stat'><div class='cpoll-sv'>" + T + "</div><div class='cpoll-sl'>إجمالي الأصوات</div></div>" +
+      "<div class='cpoll-stat'><div class='cpoll-sv' style='color:var(--green)'>" + answered + "</div><div class='cpoll-sl'>أجابوا</div></div>" +
+      "<div class='cpoll-stat'><div class='cpoll-sv' style='color:var(--amber)'>" + waiting + "</div><div class='cpoll-sl'>لم يجيبوا</div></div>" +
+      "<div class='cpoll-stat'><div class='cpoll-sv' style='font-size:" + (leading ? "13px" : "22px") + "'>" +
+      (leading ? leading.emoji + " " + leading.label : "—") + "</div><div class='cpoll-sl'>الأعلى تصويتاً</div></div>";
+
+    OPTS.forEach(function(o) {
+      var v   = votes[o.id] || 0;
+      var pct = T > 0 ? Math.round(v / T * 100) : 0;
+      var w   = T > 0 ? Math.max(pct, v > 0 ? 4 : 0) : 0;
+      var bf  = document.getElementById("cpbf_" + o.id + "_" + K);
+      if (bf) bf.style.width = w + "%";
+      var bi  = document.getElementById("cpbi_" + o.id + "_" + K);
+      if (bi) bi.textContent = v + " صوت · " + pct + "%";
+      var bfc = document.getElementById("cpbfc_" + o.id + "_" + K);
+      if (bfc) bfc.textContent = (v > 0 && w > 15) ? v : "";
+    });
+
+    var pe = document.getElementById("cppar_" + K);
+    if (pe) {
+      if (voterList.length === 0) {
+        pe.innerHTML = "<div style='font-size:12px;color:var(--text3);font-style:italic'>في انتظار أول متدرب يصوّت...</div>";
+      } else {
+        pe.innerHTML = voterList.map(function(e) {
+          var voted = !!e[1].vote;
+          return "<div class='cpoll-chip " + (voted ? "ok" : "") + "'>" + (e[1].name || "متدرب") + (voted ? " ✓" : " ...") + "</div>";
+        }).join("");
+      }
+    }
+    var upd = document.getElementById("cpupd_" + K);
+    if (upd) upd.textContent = "آخر تحديث: " + new Date().toLocaleTimeString("ar-EG");
+  }
+
+  function initFirebase() {
+    if (!window.FIREBASE_READY || !window.FIREBASE_CONFIG) {
+      document.getElementById("cpoll_offline_" + K).style.display = "block"; return;
+    }
+    try {
+      if (!firebase.apps.length) firebase.initializeApp(window.FIREBASE_CONFIG);
+      fbDb = firebase.database();
+      fbDb.ref(pollPath).on("value", function(snap) {
+        var votes = snap.val() || {};
+        renderVoterPanel(votes);
+        renderTrainerPanel(votes, null);
+      });
+      fbDb.ref(voterPath).on("value", function(snap) {
+        var voters = snap.val() || {};
+        var votes = {};
+        OPTS.forEach(function(o){ votes[o.id] = 0; });
+        Object.values(voters).forEach(function(v){ if(v.vote) votes[v.vote] = (votes[v.vote]||0) + 1; });
+        renderTrainerPanel(votes, voters);
+      });
+    } catch(e) {
+      document.getElementById("cpoll_offline_" + K).style.display = "block";
+    }
+  }
+
+  window["cpV_" + K] = function(opt) {
+    if (!fbDb) return;
+    if (!myName) myName = prompt("أدخل اسمك (اختياري):") || "متدرب";
+    localStorage.setItem("cpoll_name", myName);
+    if (!myVotePath) myVotePath = voterPath + "/" + myName.replace(/[.#$/[\]]/g,"_") + "_" + Date.now();
+    var prev = myVote;
+    myVote = opt;
+    localStorage.setItem("cpoll_vote_" + K, opt);
+    fbDb.ref(myVotePath).set({name: myName, vote: opt});
+    if (prev && prev !== opt) {
+      fbDb.ref(pollPath + "/" + prev).transaction(function(v){ return Math.max(0,(v||0)-1); });
+    }
+    if (!prev || prev !== opt) {
+      fbDb.ref(pollPath + "/" + opt).transaction(function(v){ return (v||0)+1; });
+    }
+  };
+
+  window["cpR_" + K] = function(role) {
+    var w = document.getElementById("cpwrap_" + K); if (!w) return;
+    w.querySelectorAll(".cpoll-tab").forEach(function(t,i) {
+      t.classList.toggle("active", (i===0&&role==="voter")||(i===1&&role==="trainer"));
+    });
+    document.getElementById("cpv_" + K).classList.toggle("show", role==="voter");
+    document.getElementById("cpt_" + K).classList.toggle("show", role==="trainer");
+  };
+
+  window["cpRst_" + K] = function() {
+    if (!fbDb) return;
+    if (!confirm("إعادة تعيين نتائج هذا الاستطلاع للجميع؟")) return;
+    var reset = {};
+    OPTS.forEach(function(o){ reset[o.id] = 0; });
+    fbDb.ref(pollPath).set(reset);
+    fbDb.ref(voterPath).remove();
+    myVote = null;
+    localStorage.removeItem("cpoll_vote_" + K);
+  };
+
+  myVote = localStorage.getItem("cpoll_vote_" + K) || null;
+  initFirebase();
+})();
+</script>
+
+<script>
+// ── SESSION TIMER (75 min) ──
+const SESSION_TOTAL = 75 * 60;
+const LS_KEY = 's1_session_timer';
+function sessLoad(){try{return JSON.parse(localStorage.getItem(LS_KEY))||{}}catch(e){return{}}}
+function sessSave(d){try{localStorage.setItem(LS_KEY,JSON.stringify(d))}catch(e){}}
+let sessState=sessLoad();
+function sessElapsed(){
+  if(!sessState.startedAt)return sessState.savedElapsed||0;
+  return(sessState.savedElapsed||0)+Math.floor((Date.now()-sessState.startedAt)/1000);
+}
+let sessIv=null;
+function sessUpdateUI(elapsed){
+  const rem=Math.max(0,SESSION_TOTAL-elapsed);
+  const pct=Math.min(100,(elapsed/SESSION_TOTAL)*100);
+  const m=Math.floor(rem/60),s=rem%60;
+  const disp=document.getElementById('sessDisplay');
+  const fill=document.getElementById('sessFill');
+  const btn=document.getElementById('sessBtn');
+  if(disp){
+    disp.textContent=String(m).padStart(2,'0')+':'+String(s).padStart(2,'0');
+    if(rem<=600){disp.style.color='#DC2626';if(fill)fill.style.background='#DC2626';}
+    else if(rem<=1200){disp.style.color='#D97706';if(fill)fill.style.background='linear-gradient(90deg,#D97706,#FCD34D)';}
+    else{disp.style.color='var(--green)';if(fill)fill.style.background='linear-gradient(90deg,var(--green),#34D399)';}
+  }
+  if(fill)fill.style.width=Math.max(0,100-pct)+'%';
+  if(btn){
+    const running=sessState.startedAt!=null;
+    btn.textContent=running?'⏸':(elapsed>0?'▶':'▶ الجلسة');
+    btn.classList.toggle('sess-running',running);
+  }
+  if(rem===0&&sessIv){clearInterval(sessIv);sessIv=null;}
+}
+function sessToggle(){
+  if(sessState.startedAt){sessState.savedElapsed=sessElapsed();sessState.startedAt=null;sessSave(sessState);clearInterval(sessIv);sessIv=null;}
+  else{sessState.startedAt=Date.now();sessSave(sessState);sessIv=setInterval(()=>{const e=sessElapsed();sessSave({...sessState,savedElapsed:e});sessUpdateUI(e);},1000);}
+  sessUpdateUI(sessElapsed());
+}
+function sessReset(){clearInterval(sessIv);sessIv=null;sessState={};sessSave(sessState);sessUpdateUI(0);}
+(function(){
+  const e=sessElapsed();sessUpdateUI(e);
+  if(sessState.startedAt){sessIv=setInterval(()=>{const el=sessElapsed();sessSave({...sessState,savedElapsed:el});sessUpdateUI(el);},1000);}
+})();
+</script>
+</body>
+</html>

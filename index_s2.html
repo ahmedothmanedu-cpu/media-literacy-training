@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>الجلسة الثانية — الذكاء الاصطناعي والإنتاج الإعلامي | الثقافة الإعلامية</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&family=Tajawal:wght@300;400;500;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:#F0F4FF; --bg2:#E8EEFF; --white:#FFFFFF;
+  --navy:#1E3A6E; --blue:#2563EB; --blue-lt:#3B82F6; --blue-pale:#DBEAFE;
+  --cyan:#0891B2; --cyan-pale:#CFFAFE;
+  --teal:#0F766E; --teal-pale:#CCFBF1;
+  --green:#059669; --green-pale:#D1FAE5;
+  --orange:#EA580C; --orange-pale:#FED7AA;
+  --amber:#D97706; --amber-pale:#FEF3C7;
+  --purple:#7C3AED; --purple-pale:#EDE9FE;
+  --red:#DC2626; --red-pale:#FEE2E2;
+  --text:#111827; --text2:#374151; --text3:#6B7280;
+  --border:#D1D5DB; --border2:#E5E7EB;
+  --shadow:0 2px 12px rgba(30,58,110,0.08);
+  --shadow-md:0 4px 24px rgba(30,58,110,0.12);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Cairo','Tajawal',sans-serif;background:var(--bg);color:var(--text);font-size:17px;line-height:1.6;direction:rtl}
+a{text-decoration:none;color:inherit}
+button{font-family:'Cairo',sans-serif;cursor:pointer}
+
+/* ── NAV ── */
+.topnav{background:var(--navy);padding:0;position:sticky;top:0;z-index:100;box-shadow:0 2px 12px rgba(0,0,0,0.2)}
+.topnav-inner{max-width:1000px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:0 20px;height:56px;gap:12px}
+.nav-brand{color:#fff;font-size:15px;font-weight:800;opacity:.9}
+
+/* ── TIMER BAR ── */
+.sess-strip{background:var(--white);border-bottom:2px solid var(--border2);padding:10px 20px;box-shadow:0 2px 8px rgba(30,58,110,0.06);display:flex;align-items:center;gap:12px;max-width:100%}
+.sess-display{font-size:1.5rem;font-weight:900;font-family:'Cairo',monospace;min-width:72px;color:var(--green)}
+.sess-track{flex:1;height:8px;background:var(--border2);border-radius:100px;overflow:hidden}
+.sess-fill{height:100%;border-radius:100px;background:linear-gradient(90deg,var(--green),#34D399);transition:width 1s linear;width:100%}
+.btn-sess{padding:7px 16px;border-radius:8px;font-family:'Cairo',sans-serif;font-size:13px;font-weight:800;border:1.5px solid var(--border2);background:var(--bg2);color:var(--text3);cursor:pointer;white-space:nowrap;transition:all .2s}
+.btn-sess.running{background:var(--green-pale);border-color:var(--green);color:var(--green)}
+
+/* ── HERO ── */
+.hero{background:linear-gradient(135deg,#0F766E,#0891B2);padding:40px 20px 32px;text-align:center;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");pointer-events:none}
+.hero-icon{font-size:52px;margin-bottom:12px}
+.hero h1{font-size:clamp(1.8rem,4vw,2.8rem);font-weight:900;color:#fff;margin-bottom:8px}
+.hero p{font-size:1rem;color:rgba(255,255,255,0.75);max-width:600px;margin:0 auto 18px;line-height:1.6}
+.hero-chips{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
+.hero-chip{background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.25);border-radius:10px;padding:6px 16px;font-size:13px;font-weight:700;color:rgba(255,255,255,0.9)}
+
+/* ── START BTN ── */
+.start-btn{display:block;max-width:700px;margin:24px auto 0;background:rgba(255,255,255,0.18);border:2px solid rgba(255,255,255,0.35);color:#fff;border-radius:16px;padding:18px 28px;text-align:center;font-size:18px;font-weight:900;transition:all .2s;text-decoration:none}
+.start-btn:hover{background:rgba(255,255,255,0.28)}
+
+/* ── ACTIVITIES ── */
+.acts-wrap{max-width:700px;margin:0 auto;padding:24px 20px 80px}
+.acts-section-label{font-size:12px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;color:var(--text3);margin-bottom:14px;display:flex;align-items:center;gap:10px}
+.acts-section-label::after{content:'';flex:1;height:2px;background:var(--border2);border-radius:2px}
+
+.act-item{background:var(--white);border:1.5px solid var(--border2);border-radius:16px;padding:16px 18px;display:flex;align-items:center;gap:14px;margin-bottom:10px;text-decoration:none;transition:all .2s;box-shadow:var(--shadow)}
+.act-item:hover{box-shadow:var(--shadow-md);transform:translateY(-1px)}
+.act-num{width:44px;height:44px;border-radius:13px;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:900;color:#fff;flex-shrink:0}
+.act-info{flex:1}
+.act-title{font-size:15px;font-weight:800;color:var(--navy);margin-bottom:2px}
+.act-dur{font-size:13px;color:var(--text3);font-weight:600}
+
+/* ── BOTTOM NAV ── */
+.bottom-bar{position:fixed;bottom:0;left:0;right:0;background:var(--white);border-top:2px solid var(--border2);padding:14px 20px;display:flex;gap:10px;justify-content:center;box-shadow:0 -4px 20px rgba(30,58,110,0.08)}
+.bottom-bar a{flex:1;max-width:200px;display:flex;align-items:center;justify-content:center;gap:8px;padding:12px 18px;border-radius:12px;font-size:14px;font-weight:800;text-decoration:none}
+</style>
+</head>
+<body>
+
+<nav class="topnav">
+  <div class="topnav-inner">
+    <a href="welcome.html" style="display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.25);border-radius:8px;padding:6px 14px;font-size:13px;font-weight:700;color:#fff;text-decoration:none">🏠 الرئيسية</a>
+    <div class="nav-brand">الجلسة الثانية — الذكاء الاصطناعي والإنتاج الإعلامي</div>
+    <div></div>
+  </div>
+</nav>
+
+<!-- SESSION TIMER -->
+<div class="sess-strip">
+  <div class="sess-display" id="sessDisplay">75:00</div>
+  <div class="sess-track"><div class="sess-fill" id="sessFill"></div></div>
+  <button class="btn-sess" id="sessBtn" onclick="sessToggle()">▶ ابدأ الجلسة</button>
+  <button onclick="sessReset()" style="padding:7px 10px;border-radius:8px;border:1.5px solid var(--border2);background:var(--bg2);color:var(--text3);font-family:Cairo;font-size:13px;font-weight:800;cursor:pointer">↺</button>
+</div>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-icon">🤖</div>
+  <h1>الجلسة الثانية — الذكاء الاصطناعي والإنتاج الإعلامي</h1>
+  <p>اكتشف البوتات والـ Trolls وتعلّم كيف تنتج محتوى إعلامياً مسؤولاً</p>
+  <div class="hero-chips">
+    <div class="hero-chip">⏱ 75 دقيقة</div>
+    <div class="hero-chip">🎯 6 أنشطة</div>
+    <div class="hero-chip">🧩 جلسة الثانية</div>
+  </div>
+  <a href="s2_01_opening.html" class="start-btn">🚀 ابدأ الجلسة ← افتتاح الجلسة الثانية</a>
+</div>
+
+<!-- ACTIVITIES -->
+<div class="acts-wrap">
+  <div class="acts-section-label">الأنشطة والمحطات</div>
+  <a href="index_s1.html" class="act-item" style="margin-bottom:8px"><div class="act-num" style="background:var(--navy)">↩</div><div class="act-info"><div class="act-title">الجلسة الأولى — الثقافة الإعلامية والمؤثرون</div><div class="act-dur">العودة للجلسة السابقة</div></div><div style="color:var(--text3);font-size:22px">←</div></a>
+  
+<a href="s2_01_opening.html" class="act-item">
+  <div class="act-num" style="background:#0F766E">🔁</div>
+  <div class="act-info">
+    <div class="act-title">افتتاح الجلسة الثانية</div>
+    <div class="act-dur">⏱ 10 دقائق · مراجعة Memes + أهداف</div>
+  </div>
+  <div class="act-arrow" style="color:var(--text3);font-size:22px">←</div>
+</a>
+<a href="s2_02_bot.html" class="act-item">
+  <div class="act-num" style="background:#0891B2">🤖</div>
+  <div class="act-info">
+    <div class="act-title">المؤثر: إنسان أم بوت ذكاء اصطناعي؟</div>
+    <div class="act-dur">⏱ 15 دقيقة · كشف الحسابات الوهمية</div>
+  </div>
+  <div class="act-arrow" style="color:var(--text3);font-size:22px">←</div>
+</a>
+<a href="s2_03_troll.html" class="act-item">
+  <div class="act-num" style="background:#DC2626">🧌</div>
+  <div class="act-info">
+    <div class="act-title">نشاط: Spot the Troll</div>
+    <div class="act-dur">⏱ 15 دقيقة · Digital Deception Quiz</div>
+  </div>
+  <div class="act-arrow" style="color:var(--text3);font-size:22px">←</div>
+</a>
+<a href="s2_04_break.html" class="act-item">
+  <div class="act-num" style="background:#D97706">☕</div>
+  <div class="act-info">
+    <div class="act-title">استراحة ذهنية</div>
+    <div class="act-dur">⏱ 5 دقائق · تأمل رقمي</div>
+  </div>
+  <div class="act-arrow" style="color:var(--text3);font-size:22px">←</div>
+</a>
+<a href="s2_05_discussion.html" class="act-item">
+  <div class="act-num" style="background:#EA580C">💬</div>
+  <div class="act-info">
+    <div class="act-title">حان وقت النقاش</div>
+    <div class="act-dur">⏱ 15 دقيقة · نقاش مفتوح</div>
+  </div>
+  <div class="act-arrow" style="color:var(--text3);font-size:22px">←</div>
+</a>
+<a href="s2_06_evaluation.html" class="act-item">
+  <div class="act-num" style="background:#1d4ed8">🎬</div>
+  <div class="act-info">
+    <div class="act-title">إنتاج الإعلام + التقييم الختامي</div>
+    <div class="act-dur">⏱ 15 دقيقة · إنتاج إعلامي + Post-Test</div>
+  </div>
+  <div class="act-arrow" style="color:var(--text3);font-size:22px">←</div>
+</a>
+  
+</div>
+
+<!-- BOTTOM NAV -->
+<div class="bottom-bar">
+  <a href="welcome.html" style="background:var(--bg2);color:var(--text3);border:1.5px solid var(--border2)">🏠 الرئيسية</a>
+  <a href="s2_01_opening.html" style="background:#0F766E;color:#fff">▶ ابدأ الآن</a>
+</div>
+
+<script>
+const SESSION_TOTAL = 75 * 60;
+const LS_KEY = 's2_session_timer';
+function sessLoad(){try{return JSON.parse(localStorage.getItem(LS_KEY))||{}}catch(e){return{}}}
+function sessSave(d){try{localStorage.setItem(LS_KEY,JSON.stringify(d))}catch(e){}}
+let sessState=sessLoad();
+function sessElapsed(){
+  if(!sessState.startedAt)return sessState.savedElapsed||0;
+  return(sessState.savedElapsed||0)+Math.floor((Date.now()-sessState.startedAt)/1000);
+}
+let sessIv=null;
+function sessUpdateUI(elapsed){
+  const rem=Math.max(0,SESSION_TOTAL-elapsed);
+  const pct=Math.min(100,(elapsed/SESSION_TOTAL)*100);
+  const m=Math.floor(rem/60),s=rem%60;
+  const disp=document.getElementById('sessDisplay');
+  const fill=document.getElementById('sessFill');
+  const btn=document.getElementById('sessBtn');
+  if(disp){
+    disp.textContent=String(m).padStart(2,'0')+':'+String(s).padStart(2,'0');
+    if(rem<=600)disp.style.color='#DC2626';
+    else if(rem<=1200)disp.style.color='#D97706';
+    else disp.style.color='var(--green)';
+  }
+  if(fill)fill.style.width=Math.max(0,100-pct)+'%';
+  if(btn){const r=sessState.startedAt!=null;btn.textContent=r?'⏸ إيقاف':(elapsed>0?'▶ استمرار':'▶ ابدأ الجلسة');btn.classList.toggle('running',r);}
+  if(rem===0&&sessIv){clearInterval(sessIv);sessIv=null;}
+}
+function sessToggle(){
+  if(sessState.startedAt){sessState.savedElapsed=sessElapsed();sessState.startedAt=null;sessSave(sessState);clearInterval(sessIv);sessIv=null;}
+  else{sessState.startedAt=Date.now();sessSave(sessState);sessIv=setInterval(()=>{const e=sessElapsed();sessSave({...sessState,savedElapsed:e});sessUpdateUI(e);},1000);}
+  sessUpdateUI(sessElapsed());
+}
+function sessReset(){clearInterval(sessIv);sessIv=null;sessState={};sessSave(sessState);sessUpdateUI(0);}
+(function(){const e=sessElapsed();sessUpdateUI(e);if(sessState.startedAt){sessIv=setInterval(()=>{const el=sessElapsed();sessSave({...sessState,savedElapsed:el});sessUpdateUI(el);},1000);}})();
+</script>
+</body>
+</html>

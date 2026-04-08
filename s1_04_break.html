@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>استراحة | الثقافة الإعلامية</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&family=Tajawal:wght@300;400;500;700;800&display=swap" rel="stylesheet">
+<style>
+
+  :root {
+    --bg:#F0F4FF; --bg2:#E8EEFF; --white:#FFFFFF;
+    --navy:#1E3A6E; --blue:#2563EB; --blue-lt:#3B82F6; --blue-pale:#DBEAFE;
+    --cyan:#0891B2; --cyan-pale:#CFFAFE;
+    --teal:#0F766E; --teal-pale:#CCFBF1;
+    --green:#059669; --green-pale:#D1FAE5;
+    --orange:#EA580C; --orange-pale:#FED7AA;
+    --amber:#D97706; --amber-pale:#FEF3C7;
+    --purple:#7C3AED; --purple-pale:#EDE9FE;
+    --red:#DC2626; --red-pale:#FEE2E2;
+    --rose:#BE185D; --rose-pale:#FCE7F3;
+    --text:#111827; --text2:#374151; --text3:#6B7280;
+    --border:#D1D5DB; --border2:#E5E7EB;
+    --shadow:0 2px 12px rgba(30,58,110,0.08);
+    --shadow-md:0 4px 24px rgba(30,58,110,0.12);
+    --shadow-lg:0 8px 40px rgba(30,58,110,0.16);
+  }
+
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Cairo','Tajawal',sans-serif;background:var(--bg);color:var(--text);font-size:17px;line-height:1.6;direction:rtl}
+h1,h2,h3,h4{font-family:'Cairo',sans-serif}
+a{text-decoration:none;color:inherit}
+button{font-family:'Cairo',sans-serif;cursor:pointer}
+
+/* ── NAV BAR ── */
+.topnav{background:var(--navy);padding:0;position:sticky;top:0;z-index:100;box-shadow:0 2px 12px rgba(0,0,0,0.2)}
+.topnav-inner{max-width:1000px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:0 20px;height:56px;gap:12px}
+.nav-brand{color:#fff;font-size:15px;font-weight:800;white-space:nowrap;opacity:.9}
+.nav-steps{display:flex;gap:4px;align-items:center;flex-wrap:nowrap;overflow-x:auto}
+.nav-step{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;color:rgba(255,255,255,0.5);border:2px solid rgba(255,255,255,0.15);transition:all .2s;flex-shrink:0;text-decoration:none}
+.nav-step:hover{border-color:rgba(255,255,255,0.5);color:#fff}
+.nav-step.current{background:#fff;color:var(--navy);border-color:#fff}
+.nav-step.done{background:rgba(5,150,105,0.3);border-color:#34D399;color:#6EE7B7}
+.nav-btns{display:flex;gap:8px;flex-shrink:0}
+.btn-nav{padding:7px 16px;border-radius:8px;font-size:14px;font-weight:700;border:none;transition:all .2s;white-space:nowrap}
+.btn-prev{background:rgba(255,255,255,0.1);color:#fff}
+.btn-prev:hover{background:rgba(255,255,255,0.2)}
+.btn-next{background:var(--blue);color:#fff;box-shadow:0 2px 8px rgba(37,99,235,0.4)}
+.btn-next:hover{background:var(--blue-lt)}
+
+/* ── ACTIVITY HEADER ── */
+.act-hero{padding:36px 20px 28px;text-align:center;position:relative;overflow:hidden}
+.act-num-badge{display:inline-flex;align-items:center;gap:8px;border-radius:100px;padding:6px 18px;font-size:14px;font-weight:800;margin-bottom:14px}
+.act-hero h1{font-size:clamp(1.8rem,4vw,2.8rem);font-weight:900;margin-bottom:8px}
+.act-hero p.subtitle{font-size:1.1rem;opacity:.75;max-width:600px;margin:0 auto 18px}
+.act-meta-row{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.meta-chip{display:flex;align-items:center;gap:6px;padding:7px 16px;border-radius:10px;font-size:14px;font-weight:700;background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.25);color:rgba(255,255,255,0.95)}
+
+/* ── TIMER ── */
+/* ── STICKY TIMER STRIP ── */
+.sticky-timer{position:sticky;top:56px;z-index:99;background:var(--white);
+  border-bottom:2px solid var(--border2);box-shadow:0 3px 12px rgba(30,58,110,0.09);
+  padding:0}
+.sticky-timer-inner{max-width:1000px;margin:0 auto;padding:8px 20px;
+  display:flex;align-items:center;gap:12px}
+.timer-display{font-size:1.6rem;font-weight:900;font-family:'Cairo',monospace;
+  min-width:76px;text-align:center;letter-spacing:1px}
+.timer-track{flex:1;height:8px;background:var(--border2);border-radius:100px;overflow:hidden}
+.timer-fill{height:100%;border-radius:100px;transition:width 1s linear;width:0%}
+.timer-activity-name{font-size:13px;font-weight:800;color:var(--text3);
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:220px}
+.btn-timer{padding:7px 16px;border-radius:8px;font-size:13px;font-weight:800;
+  border:none;transition:all .2s;white-space:nowrap;flex-shrink:0}
+.btn-timer-reset{padding:7px 10px;border-radius:8px;font-size:13px;font-weight:800;
+  border:1.5px solid var(--border2);background:var(--bg2);color:var(--text3);
+  cursor:pointer;transition:all .2s;flex-shrink:0}
+.btn-timer-reset:hover{border-color:var(--orange);color:var(--orange)}
+/* keep old class for compat but hide inline timer-bar */
+.timer-bar{display:none!important}
+
+/* ── CONTENT CONTAINER ── */
+.page-body{max-width:1000px;margin:0 auto;padding:0 20px 60px}
+
+/* ── CARDS ── */
+.card{background:var(--white);border:1.5px solid var(--border2);border-radius:18px;padding:24px;box-shadow:var(--shadow);margin-bottom:20px}
+.card:hover{box-shadow:var(--shadow-md)}
+.card-title{font-size:18px;font-weight:800;color:var(--navy);margin-bottom:12px;display:flex;align-items:center;gap:10px}
+.card-icon{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+
+/* ── SECTION HEADER ── */
+.sec-h{font-size:14px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;color:var(--text3);margin-bottom:16px;display:flex;align-items:center;gap:10px}
+.sec-h::after{content:'';flex:1;height:2px;background:var(--border2);border-radius:2px}
+
+/* ── GRID ── */
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+@media(max-width:640px){.grid-2,.grid-3{grid-template-columns:1fr}.topnav-inner{flex-wrap:wrap;height:auto;padding:10px 14px}.nav-steps{display:none}}
+
+/* ── BOTTOM NAV ── */
+.bottom-nav{background:var(--white);border-top:2px solid var(--border2);padding:16px 20px;display:flex;justify-content:space-between;align-items:center;position:sticky;bottom:0;box-shadow:0 -4px 20px rgba(30,58,110,0.08)}
+.bottom-nav-info{text-align:center;font-size:14px;color:var(--text3);flex:1}
+.bottom-nav-info strong{color:var(--navy);display:block;font-size:16px}
+.btn-lg{padding:12px 28px;border-radius:12px;font-size:16px;font-weight:800;border:none;transition:all .2s}
+.btn-lg-prev{background:var(--bg2);color:var(--text3);border:1.5px solid var(--border)}
+.btn-lg-next{background:var(--blue);color:#fff;box-shadow:0 4px 14px rgba(37,99,235,0.3)}
+.btn-lg-next:hover{background:var(--blue-lt)}
+
+/* ── PROGRESS DOTS ── */
+.progress-track{display:flex;gap:6px;justify-content:center;margin-bottom:24px}
+.progress-dot{width:10px;height:10px;border-radius:50%;background:var(--border);transition:all .3s}
+.progress-dot.active{background:var(--blue);width:28px;border-radius:10px}
+.progress-dot.done{background:var(--green)}
+
+
+/* ── LIVE POLL ── */
+.lp-wrap{background:var(--white);border:2px solid var(--border2);border-radius:18px;
+  overflow:hidden;box-shadow:var(--shadow-md);margin-bottom:20px}
+.lp-header{background:linear-gradient(135deg,#0c2461,#0891B2);padding:20px 24px}
+.lp-title{font-size:17px;font-weight:900;color:#fff;margin-bottom:4px}
+.lp-sub{font-size:13px;color:rgba(255,255,255,.7)}
+.lp-body{padding:24px}
+.lp-layout{display:grid;grid-template-columns:1fr 1.4fr;gap:20px;align-items:start}
+.lp-controls{display:flex;flex-direction:column;gap:10px}
+.lp-opt-btn{display:flex;align-items:center;gap:12px;border:2px solid var(--border2);
+  border-radius:14px;padding:12px 16px;background:var(--white);cursor:pointer;
+  transition:all .2s;text-align:right;direction:rtl;width:100%}
+.lp-opt-btn:hover{box-shadow:var(--shadow-md);transform:translateX(-2px)}
+.lp-opt-btn.voted{border-width:2.5px}
+.lp-opt-emoji{font-size:22px;flex-shrink:0}
+.lp-opt-label{font-size:14px;font-weight:800;color:var(--navy);flex:1;text-align:right}
+.lp-opt-count{font-size:20px;font-weight:900;min-width:32px;text-align:center;
+  transition:all .3s;display:flex;align-items:center;justify-content:center}
+.lp-add-btn{padding:9px 0;border-radius:10px;border:none;font-family:'Cairo',sans-serif;
+  font-size:14px;font-weight:800;color:#fff;cursor:pointer;flex:1;
+  transition:all .2s}
+.lp-add-btn:hover{filter:brightness(1.12);transform:translateY(-1px)}
+.lp-add-row{display:flex;gap:8px}
+.lp-undo{padding:9px 14px;border-radius:10px;background:var(--bg2);
+  border:1.5px solid var(--border2);font-family:'Cairo',sans-serif;
+  font-size:13px;font-weight:800;color:var(--text3);cursor:pointer;
+  transition:all .2s;white-space:nowrap}
+.lp-undo:hover{border-color:var(--red);color:var(--red)}
+.lp-chart-side{display:flex;flex-direction:column;gap:0}
+.lp-empty-state{display:flex;flex-direction:column;align-items:center;justify-content:center;
+  height:200px;gap:10px;color:var(--text3)}
+.lp-empty-icon{font-size:40px;opacity:.35}
+.lp-empty-txt{font-size:14px;font-weight:700;opacity:.5;text-align:center;line-height:1.6}
+.lp-bars-wrap{display:flex;align-items:flex-end;gap:8px;height:180px;
+  border-bottom:2px solid var(--border2);padding-bottom:4px}
+.lp-bar-col{flex:1;display:flex;flex-direction:column;align-items:center;
+  justify-content:flex-end;position:relative}
+.lp-bar-body{width:100%;border-radius:10px 10px 0 0;
+  transition:height .55s cubic-bezier(.34,1.2,.64,1);
+  min-height:0;position:relative;display:flex;align-items:flex-start;justify-content:center}
+.lp-bar-count{font-size:16px;font-weight:900;margin-top:6px;
+  transition:all .3s;color:inherit}
+.lp-bar-pct{font-size:11px;font-weight:800;position:absolute;bottom:-18px;
+  left:50%;transform:translateX(-50%);color:var(--text3);white-space:nowrap}
+.lp-bar-emoji{font-size:13px;position:absolute;top:6px;left:50%;transform:translateX(-50%)}
+.lp-bar-lbl{font-size:10.5px;font-weight:700;color:var(--text3);
+  text-align:center;margin-top:22px;line-height:1.3;max-width:72px}
+.lp-status{display:flex;align-items:center;justify-content:space-between;
+  flex-wrap:wrap;gap:8px;margin-top:18px;padding-top:14px;
+  border-top:1.5px solid var(--border2)}
+.lp-total-badge{display:flex;align-items:center;gap:8px;
+  background:var(--cyan-pale);border:1.5px solid #67E8F9;border-radius:10px;
+  padding:8px 16px}
+.lp-total-num{font-size:24px;font-weight:900;color:var(--cyan)}
+.lp-total-lbl{font-size:12px;font-weight:700;color:var(--cyan)}
+.lp-reset-btn{padding:7px 16px;border-radius:9px;background:var(--bg2);
+  border:1.5px solid var(--border);font-family:'Cairo',sans-serif;
+  font-size:13px;font-weight:800;color:var(--text3);cursor:pointer;transition:all .2s}
+.lp-reset-btn:hover{border-color:var(--red);color:var(--red)}
+.lp-reveal{margin-top:16px;background:linear-gradient(135deg,#0F766E,#059669);
+  border-radius:14px;padding:18px 20px;display:none}
+.lp-reveal.show{display:block;animation:popIn .4s ease}
+.lp-reveal-title{font-size:12px;font-weight:800;color:rgba(255,255,255,.75);
+  text-transform:uppercase;letter-spacing:1px;margin-bottom:8px}
+.lp-reveal-text{font-size:15px;font-weight:700;color:#fff;line-height:1.7}
+.lp-guide{background:rgba(30,58,110,0.06);border:1.5px solid var(--border2);
+  border-radius:12px;padding:14px 18px;display:flex;align-items:flex-start;gap:12px}
+.lp-guide-icon{font-size:20px;flex-shrink:0;margin-top:2px}
+.lp-guide-text{font-size:13px;color:var(--text2);line-height:1.7}
+.lp-guide-text strong{color:var(--navy)}
+@keyframes bump{0%,100%{transform:scale(1)}50%{transform:scale(1.25)}}
+.bump{animation:bump .3s ease}
+@media(max-width:640px){.lp-layout{grid-template-columns:1fr}}
+.chat-box{background:var(--bg2);border:1.5px solid var(--border2);border-radius:12px;padding:16px;
+  font-size:15px;color:var(--text2);line-height:1.8;min-height:80px;outline:none}
+.chat-box[contenteditable]:empty::before{content:attr(data-placeholder);color:var(--text3)}
+.response-bubble{background:var(--blue-pale);border:1.5px solid #93C5FD;border-radius:12px;padding:12px 16px;
+  margin-bottom:8px;font-size:15px;color:var(--navy);animation:fadeIn .4s ease}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.icon-circle{width:44px;height:44px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0}
+
+
+/* ── CHAT INPUT WIDGET ── */
+.chat-input-widget{background:var(--white);border:2px solid var(--border2);border-radius:16px;
+  overflow:hidden;box-shadow:var(--shadow);margin-bottom:20px}
+.ciw-header{background:var(--navy);padding:10px 18px;display:flex;align-items:center;gap:10px}
+.ciw-dot{width:10px;height:10px;border-radius:50%;animation:livepulse 2s infinite}
+.ciw-title{font-size:14px;font-weight:800;color:#fff;flex:1}
+.ciw-body{padding:14px 16px}
+.ciw-prompt{font-size:14px;color:var(--text3);margin-bottom:10px;line-height:1.6}
+.ciw-prompt strong{color:var(--navy)}
+.ciw-textarea{width:100%;border:1.5px solid var(--border2);border-radius:10px;
+  padding:12px 14px;font-family:'Cairo','Tajawal',sans-serif;font-size:15px;
+  color:var(--text);background:var(--bg2);outline:none;resize:none;direction:rtl;
+  transition:border-color .25s,box-shadow .25s;line-height:1.7}
+.ciw-textarea:focus{border-color:var(--blue);background:var(--white);
+  box-shadow:0 0 0 3px rgba(37,99,235,0.1)}
+.ciw-footer{display:flex;align-items:center;justify-content:space-between;
+  margin-top:10px;gap:10px}
+.ciw-counter{font-size:12px;color:var(--text3)}
+.ciw-send{padding:8px 20px;border-radius:8px;font-family:'Cairo',sans-serif;
+  font-size:14px;font-weight:800;border:none;cursor:pointer;transition:all .2s;
+  color:#fff}
+.ciw-send:hover{opacity:.88;transform:translateY(-1px)}
+.ciw-responses{margin-top:10px;display:flex;flex-direction:column;gap:8px}
+.ciw-bubble{background:var(--bg2);border:1.5px solid var(--border2);border-radius:10px;
+  padding:10px 14px;font-size:14px;color:var(--text2);line-height:1.6;
+  animation:popIn .35s ease;display:flex;gap:10px;align-items:flex-start}
+.ciw-bubble-txt{flex:1}
+.ciw-bubble-del{font-size:14px;color:var(--text3);cursor:pointer;opacity:.5;
+  flex-shrink:0;transition:opacity .2s}
+.ciw-bubble-del:hover{opacity:1;color:var(--red)}
+@keyframes popIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+@keyframes livepulse{0%,100%{opacity:1}50%{opacity:.4}}
+
+
+/* ── SESSION TIMER IN STICKY BAR ── */
+.sticky-timer-inner{border-bottom:none}
+.sbar-divider{width:1px;height:32px;background:var(--border2);flex-shrink:0}
+.sbar-session{display:flex;align-items:center;gap:8px;flex-shrink:0}
+.sbar-session-label{font-size:11px;font-weight:800;color:var(--text3);
+  text-transform:uppercase;letter-spacing:.5px;white-space:nowrap}
+.sbar-session-display{font-size:1.45rem;font-weight:900;font-family:'Cairo',monospace;
+  letter-spacing:1px;min-width:62px;text-align:center}
+.sbar-session-track{width:80px;height:6px;background:var(--border2);
+  border-radius:100px;overflow:hidden;flex-shrink:0}
+.sbar-session-fill{height:100%;border-radius:100px;
+  background:linear-gradient(90deg,var(--green),#34D399);
+  transition:width 1s linear;width:100%}
+.btn-sess{padding:5px 10px;border-radius:7px;font-family:'Cairo',sans-serif;
+  font-size:12px;font-weight:800;border:1.5px solid var(--border2);
+  background:var(--bg2);color:var(--text3);cursor:pointer;transition:all .2s;white-space:nowrap}
+.btn-sess:hover{border-color:var(--green);color:var(--green)}
+.btn-sess.sess-running{background:var(--green-pale);border-color:var(--green);color:var(--green)}
+
+
+/* ══ COLLABORATIVE POLL — Firebase v3 ══ */
+.cpoll-wrap{margin-bottom:20px;font-family:'Cairo','Tajawal',sans-serif}
+.cpoll-hdr{background:linear-gradient(135deg,#0c2461,#1d4ed8);border-radius:16px;padding:20px 22px;margin-bottom:14px}
+.cpoll-q{font-size:17px;font-weight:900;color:#fff;margin-bottom:6px;line-height:1.5}
+.cpoll-sub{font-size:12px;color:rgba(255,255,255,.65)}
+.cpoll-tabs{display:flex;margin-bottom:14px;border:1.5px solid var(--border2);border-radius:12px;overflow:hidden}
+.cpoll-tab{flex:1;padding:11px 8px;border:none;font-family:'Cairo',sans-serif;font-size:14px;font-weight:800;cursor:pointer;text-align:center;background:var(--white);color:var(--text3);transition:all .18s}
+.cpoll-tab.active{background:var(--blue);color:#fff}
+.cpoll-tab:first-child{border-left:.5px solid var(--border2)}
+.cpoll-voter,.cpoll-trainer{display:none}
+.cpoll-voter.show,.cpoll-trainer.show{display:block}
+.cpoll-note{background:var(--blue-pale);border-right:4px solid var(--blue);border-radius:0 10px 10px 0;padding:10px 14px;font-size:13px;color:var(--navy);margin-bottom:14px;line-height:1.7}
+.cpoll-opt{width:100%;padding:13px 16px;border-radius:12px;border:1.5px solid var(--border2);background:var(--white);font-family:'Cairo',sans-serif;font-size:15px;font-weight:700;cursor:pointer;text-align:right;margin-bottom:8px;display:flex;align-items:center;gap:10px;transition:all .2s;direction:rtl}
+.cpoll-opt:hover:not(:disabled){background:var(--blue-pale);border-color:var(--blue-lt)}
+.cpoll-opt:disabled{opacity:.6;cursor:default}
+.cpoll-opt.voted{border-width:2.5px}
+.cpoll-opt-em{font-size:22px;width:28px;flex-shrink:0}
+.cpoll-opt-lbl{flex:1;text-align:right}
+.cpoll-opt-cnt{font-size:20px;font-weight:900;min-width:32px;text-align:center;transition:all .3s}
+.cpoll-vmsg{background:var(--green-pale);border:1.5px solid #6EE7B7;border-radius:12px;padding:12px 16px;font-size:14px;font-weight:700;color:var(--green);margin-top:10px;text-align:center;display:none}
+.cpoll-offline{background:var(--amber-pale);border:1.5px solid #FCD34D;border-right:4px solid var(--amber);border-radius:0 12px 12px 0;padding:14px 16px;font-size:13px;color:var(--text2);margin-bottom:14px;line-height:1.8}
+.cpoll-offline a{color:var(--blue);font-weight:800;text-decoration:underline}
+.cpoll-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:16px}
+.cpoll-stat{background:var(--white);border:1.5px solid var(--border2);border-radius:12px;padding:12px 10px;text-align:center}
+.cpoll-sv{font-size:22px;font-weight:900;color:var(--navy);margin-bottom:4px;transition:all .4s}
+.cpoll-sl{font-size:11px;font-weight:700;color:var(--text3);line-height:1.4}
+.cpoll-rl{font-size:12px;font-weight:800;color:var(--text3);text-transform:uppercase;letter-spacing:.5px;margin:12px 0 10px;padding-bottom:6px;border-bottom:1.5px solid var(--border2)}
+.cpoll-bw{margin-bottom:12px}
+.cpoll-br{display:flex;justify-content:space-between;align-items:center;margin-bottom:5px;direction:rtl}
+.cpoll-bn{font-size:14px;font-weight:800;color:var(--navy);display:flex;align-items:center;gap:6px}
+.cpoll-bi{font-size:12px;color:var(--text3);font-weight:700;transition:all .4s}
+.cpoll-bt{height:30px;background:var(--bg2);border-radius:8px;overflow:hidden;border:1.5px solid var(--border2);position:relative}
+.cpoll-bf{position:absolute;right:0;top:0;height:100%;border-radius:8px;transition:width .65s cubic-bezier(.34,1.2,.64,1);display:flex;align-items:center;padding-right:8px;justify-content:flex-end}
+.cpoll-bf span{font-size:11px;font-weight:900;color:#fff;white-space:nowrap}
+.cpoll-live-dot{width:8px;height:8px;border-radius:50%;background:#22C55E;display:inline-block;margin-left:6px;animation:livepulse 2s infinite}
+@keyframes livepulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.85)}}
+.cpoll-prow{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px;min-height:22px}
+.cpoll-chip{font-size:12px;padding:4px 12px;border-radius:20px;border:1.5px solid var(--border2);color:var(--text3);font-weight:700;transition:all .4s}
+.cpoll-chip.ok{border-color:#6EE7B7;color:var(--green);background:var(--green-pale)}
+.cpoll-actions{display:flex;justify-content:space-between;align-items:center;margin-top:8px}
+.cpoll-rbtn{font-size:13px;padding:7px 16px;border-radius:8px;border:1.5px solid var(--border2);background:var(--bg2);color:var(--text3);cursor:pointer;font-family:'Cairo',sans-serif;font-weight:700;transition:all .2s}
+.cpoll-rbtn:hover{border-color:var(--red);color:var(--red)}
+.cpoll-upd{font-size:11px;color:var(--text3)}
+@media(max-width:640px){.cpoll-stats{grid-template-columns:repeat(2,1fr)}}
+</style>
+<!-- Firebase SDK + Config -->
+<script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-database-compat.js"></script>
+<script>
+window.FIREBASE_CONFIG = {
+  apiKey:            "AIzaSyA_O4MmUccnk4xKmNVTzOH6YtKFCWQgZQ4",
+  authDomain:        "media-literacy-training.firebaseapp.com",
+  databaseURL:       "https://media-literacy-training-default-rtdb.firebaseio.com",
+  projectId:         "media-literacy-training",
+  storageBucket:     "media-literacy-training.firebasestorage.app",
+  messagingSenderId: "652579612215",
+  appId:             "1:652579612215:web:081508aa102a4b3948c1b2"
+};
+window.FIREBASE_READY = true;
+</script>
+</head>
+<body>
+<nav class="topnav">
+  <div class="topnav-inner">
+    <a href="index_s1.html" style="display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.25);border-radius:8px;padding:6px 14px;font-size:13px;font-weight:700;color:#fff;text-decoration:none" onmouseover="this.style.background='rgba(255,255,255,0.22)'" onmouseout="this.style.background='rgba(255,255,255,0.12)'">🏠 الرئيسية</a>
+    <div class="nav-brand">الجلسة الأولى · الثقافة الإعلامية والمؤثرون</div>
+    <div class="nav-steps"><a href="s1_01_opening.html" class="nav-step " title="الافتتاح وكسر الجليد">1</a><a href="s1_02_activity1.html" class="nav-step " title="ماذا تحب في الإعلام؟">2</a><a href="s1_03_emotions.html" class="nav-step " title="نشاط: اختبار المشاعر">3</a><a href="s1_04_break.html" class="nav-step current" title="استراحة">4</a><a href="s1_05_influencers.html" class="nav-step " title="المؤثرون وتأثيرهم">5</a><a href="s1_06_meme.html" class="nav-step " title="إنشاء Meme + تقييم">6</a></div>
+    <div class="nav-btns"><a href="s1_03_emotions.html"><button class="btn-nav btn-prev">→ نشاط: اختبار المشاعر</button></a><a href="s1_05_influencers.html"><button class="btn-nav btn-next">المؤثرون وتأثيرهم ←</button></a></div>
+  </div>
+</nav>
+<div class="sticky-timer">
+  <div class="sticky-timer-inner">
+    <button class="btn-timer" id="mainTimerBtn" onclick="timerToggle('mainTimer',300)" style="background:#D97706">▶ ابدأ</button>
+    <div class="timer-track"><div class="timer-fill" id="mainTimerFill" style="background:#D97706"></div></div>
+    <div class="timer-display" id="mainTimerDisplay" style="color:#D97706">05:00</div>
+    <div class="timer-activity-name">☕ استراحة ذهنية</div>
+    <button class="btn-timer-reset" onclick="timerReset('mainTimer',5)" title="إعادة">↺</button>
+    <div class="sbar-divider"></div>
+    <div class="sbar-session">
+      <div class="sbar-session-label">الجلسة</div>
+      <div class="sbar-session-track"><div class="sbar-session-fill" id="sessFill"></div></div>
+      <div class="sbar-session-display" id="sessDisplay" style="color:var(--green)">75:00</div>
+      <button class="btn-sess" id="sessBtn" onclick="sessToggle()">▶ الجلسة</button>
+      <button class="btn-sess" onclick="sessReset()" title="إعادة ضبط" style="padding:5px 8px">↺</button>
+    </div>
+  </div>
+</div>
+<div class="act-hero" style="background:linear-gradient(135deg,#92400e,#D97706)">
+  <div class="act-num-badge" style="background:rgba(255,255,255,0.15);color:#FDE68A">☕ استراحة · ٤</div>
+  <h1 style="color:#fff">استراحة ذهنية</h1>
+  <p class="subtitle" style="color:#FDE68A">لحظة تأمل قبل الانطلاق للنشاط القادم</p>
+  <div class="act-meta-row"><div class="meta-chip">⏱ 5 دقائق</div><div class="meta-chip">🧘 تنفس واعٍ</div><div class="meta-chip">💡 مراجعة سريعة</div></div>
+</div>
+<div class="page-body">
+<div class="progress-track"><div class="progress-dot done"></div><div class="progress-dot done"></div><div class="progress-dot done"></div><div class="progress-dot active"></div><div class="progress-dot"></div><div class="progress-dot"></div></div>
+
+<div class="card" style="text-align:center;padding:28px">
+  <div style="font-size:52px;margin-bottom:12px">🫁</div>
+  <div style="font-size:20px;font-weight:900;color:var(--amber);margin-bottom:8px">تمرين التنفس الواعي</div>
+  <p style="color:var(--text3);font-size:14px;margin-bottom:20px">خذ لحظة للاسترخاء قبل الانطلاق نحو النشاط القادم</p>
+  <div id="breathCircle" onclick="startBreath()" style="width:120px;height:120px;border-radius:50%;background:linear-gradient(135deg,#D97706,#F59E0B);color:#fff;font-size:16px;font-weight:900;cursor:pointer;margin:0 auto 16px;display:flex;align-items:center;justify-content:center;transition:all 1s ease;box-shadow:0 4px 20px rgba(217,119,6,0.4)">ابدأ</div>
+  <div id="breathLabel" style="font-size:16px;font-weight:700;color:var(--amber)">اضغط للبدء</div>
+</div>
+
+<div class="card">
+  <div class="card-title"><div class="card-icon" style="background:#0F766E">💡</div>ماذا تعلمنا حتى الآن؟</div>
+  <div style="display:flex;flex-direction:column;gap:10px">
+    <div style="background:var(--blue-pale);border-right:4px solid var(--blue);border-radius:0 12px 12px 0;padding:12px 16px;font-size:15px;color:var(--navy);font-weight:700">🌍 الثقافة الإعلامية ضرورة للجميع في عصر السوشيال ميديا</div>
+    <div style="background:var(--green-pale);border-right:4px solid var(--green);border-radius:0 12px 12px 0;padding:12px 16px;font-size:15px;color:var(--navy);font-weight:700">❓ التساؤل هو أول خطوات الثقافة الإعلامية</div>
+    <div style="background:var(--red-pale);border-right:4px solid var(--red);border-radius:0 12px 12px 0;padding:12px 16px;font-size:15px;color:var(--navy);font-weight:700">💥 المحتوى العاطفي يحتاج تحققاً مضاعفاً</div>
+  </div>
+</div>
+
+<div class="card" style="background:linear-gradient(135deg,#D97706,#F59E0B);border:none;text-align:center">
+  <div style="font-size:18px;font-weight:900;color:#fff;margin-bottom:8px">في الجزء القادم</div>
+  <div style="font-size:15px;color:rgba(255,255,255,0.9);line-height:1.7">سنتعرف على المؤثرين في السوشيال ميديا — من هم؟ وكيف يؤثرون علينا؟ ومن يجني المال من تأثيرهم؟</div>
+</div>
+
+<script>
+let breathPhase = 0;
+const phases = [
+  {text:'شهيق...', scale:'scale(1.3)', dur:4000},
+  {text:'احبس نفسك', scale:'scale(1.3)', dur:4000},
+  {text:'زفير...', scale:'scale(1)', dur:6000},
+  {text:'راحة', scale:'scale(1)', dur:2000}
+];
+let bIv = null;
+function startBreath() {
+  if (bIv) { clearInterval(bIv); bIv = null; }
+  let ph = 0;
+  function tick() {
+    const c = document.getElementById('breathCircle');
+    const l = document.getElementById('breathLabel');
+    const p = phases[ph % phases.length];
+    if(c) { c.style.transform = p.scale; c.textContent = p.text; }
+    if(l) l.textContent = p.text;
+    ph++;
+  }
+  tick();
+  bIv = setInterval(tick, 4000);
+}
+</script>
+
+
+</div>
+<div class="bottom-nav">
+  <a href="s1_03_emotions.html"><button class="btn-lg btn-lg-prev">→ نشاط المشاعر</button></a>
+  <div class="bottom-nav-info"><strong>☕ استراحة ذهنية</strong>5 دقائق</div>
+  <a href="s1_05_influencers.html"><button class="btn-lg btn-lg-next">المؤثرون ←</button></a>
+</div>
+
+<script>
+// ── ACTIVITY TIMER ──
+const _timers = {};
+let _masterIv = null;
+
+function _masterTick() {
+  let anyRunning = false;
+  Object.keys(_timers).forEach(id => {
+    const t = _timers[id];
+    if (!t.running) return;
+    anyRunning = true;
+    t.elapsed++;
+    const rem = Math.max(0, t.total - t.elapsed);
+    const pct = Math.min(100, (t.elapsed / t.total) * 100);
+    const fill = document.getElementById(id+'Fill');
+    const disp = document.getElementById(id+'Display');
+    const btn  = document.getElementById(id+'Btn');
+    if (fill) fill.style.width = pct + '%';
+    if (disp) {
+      const m = Math.floor(rem/60), s = rem%60;
+      disp.textContent = String(m).padStart(2,'0')+':'+String(s).padStart(2,'0');
+    }
+    if (pct > 80) { if(fill) fill.style.background='#DC2626'; if(disp) disp.style.color='#DC2626'; }
+    else if (pct > 60) { if(fill) fill.style.background='#D97706'; if(disp) disp.style.color='#D97706'; }
+    if (rem === 0) { t.running = false; if(btn){ btn.textContent='✓ انتهى'; btn.style.background='#059669'; } }
+  });
+  if (typeof sessState !== 'undefined' && sessState.startedAt) sessUpdateUI(sessElapsed());
+  if (!anyRunning) { clearInterval(_masterIv); _masterIv = null; }
+}
+
+function _startMaster() { if (!_masterIv) _masterIv = setInterval(_masterTick, 1000); }
+function _stopMaster() { if (_masterIv) { clearInterval(_masterIv); _masterIv = null; } }
+
+function timerToggle(id, total) {
+  if (!_timers[id]) _timers[id] = {elapsed:0, total, running:false};
+  const t = _timers[id];
+  const btn = document.getElementById(id+'Btn');
+  if (t.running) {
+    t.running = false;
+    if (btn) { btn.textContent='▶ استمرار'; btn.style.opacity='0.75'; }
+    if (typeof sessState !== 'undefined' && sessState.startedAt) {
+      sessState.savedElapsed = sessElapsed(); sessState.startedAt = null;
+      sessSave(sessState); sessUpdateUI(sessState.savedElapsed);
+    }
+    _stopMaster();
+  } else {
+    t.running = true;
+    if (btn) { btn.textContent='⏸ إيقاف'; btn.style.opacity='1'; }
+    if (typeof sessState !== 'undefined' && !sessState.startedAt) {
+      sessState.startedAt = Date.now(); sessSave(sessState);
+    }
+    _startMaster();
+  }
+}
+
+function timerReset(id, mins) {
+  _timers[id] = {elapsed:0, total:mins*60, running:false};
+  const fill = document.getElementById(id+'Fill');
+  const disp = document.getElementById(id+'Display');
+  const btn  = document.getElementById(id+'Btn');
+  if (fill) { fill.style.width='0%'; fill.style.background=''; }
+  if (disp) { disp.textContent=String(mins).padStart(2,'0')+':00'; disp.style.color=''; }
+  if (btn)  { btn.textContent='▶ ابدأ'; btn.style.background=''; btn.style.opacity='1'; }
+  const anyRunning = Object.values(_timers).some(t=>t.running);
+  if (!anyRunning) _stopMaster();
+}
+</script>
+
+
+<script>
+// ── SESSION TIMER (75 min) ──
+const SESSION_TOTAL = 75 * 60;
+const LS_KEY = 's1_session_timer';
+function sessLoad(){try{return JSON.parse(localStorage.getItem(LS_KEY))||{}}catch(e){return{}}}
+function sessSave(d){try{localStorage.setItem(LS_KEY,JSON.stringify(d))}catch(e){}}
+let sessState=sessLoad();
+function sessElapsed(){
+  if(!sessState.startedAt)return sessState.savedElapsed||0;
+  return(sessState.savedElapsed||0)+Math.floor((Date.now()-sessState.startedAt)/1000);
+}
+let sessIv=null;
+function sessUpdateUI(elapsed){
+  const rem=Math.max(0,SESSION_TOTAL-elapsed);
+  const pct=Math.min(100,(elapsed/SESSION_TOTAL)*100);
+  const m=Math.floor(rem/60),s=rem%60;
+  const disp=document.getElementById('sessDisplay');
+  const fill=document.getElementById('sessFill');
+  const btn=document.getElementById('sessBtn');
+  if(disp){
+    disp.textContent=String(m).padStart(2,'0')+':'+String(s).padStart(2,'0');
+    if(rem<=600){disp.style.color='#DC2626';if(fill)fill.style.background='#DC2626';}
+    else if(rem<=1200){disp.style.color='#D97706';if(fill)fill.style.background='linear-gradient(90deg,#D97706,#FCD34D)';}
+    else{disp.style.color='var(--green)';if(fill)fill.style.background='linear-gradient(90deg,var(--green),#34D399)';}
+  }
+  if(fill)fill.style.width=Math.max(0,100-pct)+'%';
+  if(btn){
+    const running=sessState.startedAt!=null;
+    btn.textContent=running?'⏸':(elapsed>0?'▶':'▶ الجلسة');
+    btn.classList.toggle('sess-running',running);
+  }
+  if(rem===0&&sessIv){clearInterval(sessIv);sessIv=null;}
+}
+function sessToggle(){
+  if(sessState.startedAt){sessState.savedElapsed=sessElapsed();sessState.startedAt=null;sessSave(sessState);clearInterval(sessIv);sessIv=null;}
+  else{sessState.startedAt=Date.now();sessSave(sessState);sessIv=setInterval(()=>{const e=sessElapsed();sessSave({...sessState,savedElapsed:e});sessUpdateUI(e);},1000);}
+  sessUpdateUI(sessElapsed());
+}
+function sessReset(){clearInterval(sessIv);sessIv=null;sessState={};sessSave(sessState);sessUpdateUI(0);}
+(function(){
+  const e=sessElapsed();sessUpdateUI(e);
+  if(sessState.startedAt){sessIv=setInterval(()=>{const el=sessElapsed();sessSave({...sessState,savedElapsed:el});sessUpdateUI(el);},1000);}
+})();
+</script>
+</body>
+</html>
