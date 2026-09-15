@@ -30,7 +30,7 @@ button{font-family:'Cairo',sans-serif;cursor:pointer}
 /* ── NAV ── */
 .topnav{background:var(--navy);padding:0;position:sticky;top:0;z-index:100;box-shadow:0 2px 12px rgba(0,0,0,0.2)}
 .topnav-inner{max-width:1000px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:0 20px;height:56px;gap:12px}
-.nav-brand{color:#fff;font-size:15px;font-weight:800;opacity:.9}
+.nav-brand{color:#fff;font-size:15px;font-weight:800;white-space:nowrap;opacity:.9}
 
 /* ── TIMER BAR ── */
 .sess-strip{background:var(--white);border-bottom:2px solid var(--border2);padding:10px 20px;box-shadow:0 2px 8px rgba(30,58,110,0.06);display:flex;align-items:center;gap:12px;max-width:100%}
@@ -66,7 +66,7 @@ button{font-family:'Cairo',sans-serif;cursor:pointer}
 .act-dur{font-size:13px;color:var(--text3);font-weight:600}
 
 /* ── BOTTOM NAV ── */
-.bottom-bar{position:fixed;bottom:0;left:0;right:0;background:var(--white);border-top:2px solid var(--border2);padding:14px 20px;display:flex;gap:10px;justify-content:center;box-shadow:0 -4px 20px rgba(30,58,110,0.08)}
+.bottom-bar{position:sticky;bottom:0;left:0;right:0;background:var(--white);border-top:2px solid var(--border2);padding:16px 20px;display:flex;gap:10px;justify-content:center;box-shadow:0 -4px 20px rgba(30,58,110,0.08)}
 .bottom-bar a{flex:1;max-width:200px;display:flex;align-items:center;justify-content:center;gap:8px;padding:12px 18px;border-radius:12px;font-size:14px;font-weight:800;text-decoration:none}
 </style>
 </head>
@@ -74,8 +74,8 @@ button{font-family:'Cairo',sans-serif;cursor:pointer}
 
 <nav class="topnav">
   <div class="topnav-inner">
-    <a href="welcome.html" style="display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.25);border-radius:8px;padding:6px 14px;font-size:13px;font-weight:700;color:#fff;text-decoration:none">🏠 الرئيسية</a>
-    <div class="nav-brand">الجلسة الثانية — الذكاء الاصطناعي والإنتاج الإعلامي</div>
+    <a href="welcome.html" style="display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.25);border-radius:8px;padding:6px 14px;font-size:13px;font-weight:700;color:#fff;text-decoration:none" onmouseover="this.style.background='rgba(255,255,255,0.22)'" onmouseout="this.style.background='rgba(255,255,255,0.12)'">🏠 الرئيسية</a>
+    <div class="nav-brand">الجلسة الثانية · الذكاء الاصطناعي والإنتاج الإعلامي</div>
     <div></div>
   </div>
 </nav>
